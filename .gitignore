@@ -7,3 +7,6 @@
 /trpoMarkAnalizerProject/.vs/trpoMarkAnalizerProject/v15
 /trpoMarkAnalizerProject/trpoMarkAnalizerProject/obj/Debug
 /trpoMarkAnalizerProject/trpoMarkAnalizerProject/obj/Release
+*.laccdb
+*.exe
+/trpoMarkAnalizerProject/trpoMarkAnalizerProject/bin/Debug
