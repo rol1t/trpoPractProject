@@ -20,11 +20,31 @@ namespace trpoMarkAnalizerProject
         {
             InitializeComponent();
             InitDB();
+            tabControlStyleInit();
+            InitPage();
+        }
+
+        private void InitPage()
+        {
+            InitJournal();
+        }
+
+        private void InitJournal()
+        {
+            
+        }
+
+        private void tabControlStyleInit()
+        {
+            tabControl.Appearance = TabAppearance.FlatButtons;
+            tabControl.ItemSize = new Size(0, 1);
+            tabControl.SizeMode = TabSizeMode.Fixed;
         }
 
         private void InitDB()
         {
-            _connection = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\Marks1.accdb;Persist Security Info=True");
+            _connection = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;
+Data Source=C:\Users\Алексей\source\repos\rol1t\trpoPractProject\trpoMarkAnalizerProject\trpoMarkAnalizerProject\Marks1.accdb;Persist Security Info=True");
             _connection.Open();
         }
 
