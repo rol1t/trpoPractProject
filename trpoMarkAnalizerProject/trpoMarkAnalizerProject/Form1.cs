@@ -20,7 +20,6 @@ namespace trpoMarkAnalizerProject
         {
             InitializeComponent();
             InitDB();
-            tabControlStyleInit();
             InitPage();
         }
 
@@ -31,14 +30,26 @@ namespace trpoMarkAnalizerProject
 
         private void InitJournal()
         {
-            
+            //init group combobox
+            var adapter = new OleDbDataAdapter("SELECT * From GroupBox", _connection);
+            var table = new DataTable();
+            adapter.Fill(table);
+            groupBox.ValueMember = "id";
+            groupBox.DisplayMember = "nameGroup";
+            groupBox.DataSource = table;
+
+            //init subjectBox
+            adapter.SelectCommand.CommandText = "Select * From Subject";
+            var tableSub = new DataTable();
+            adapter.Fill(tableSub);
+            subjectBox.ValueMember = "id";
+            subjectBox.DisplayMember = "nameSub";
+            subjectBox.DataSource = tableSub;
         }
 
-        private void tabControlStyleInit()
+        private void showJournal()
         {
-            tabControl.Appearance = TabAppearance.FlatButtons;
-            tabControl.ItemSize = new Size(0, 1);
-            tabControl.SizeMode = TabSizeMode.Fixed;
+            Dictionary<DateTime, Student> journal = new Dictionary<DateTime, Student>();
         }
 
         private void InitDB()
@@ -50,7 +61,16 @@ Data Source=C:\Users\Алексей\source\repos\rol1t\trpoPractProject\trpoMark
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("Привет, Алексей!!");
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _connection.Close();
+        }
+
+        private void journalPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
