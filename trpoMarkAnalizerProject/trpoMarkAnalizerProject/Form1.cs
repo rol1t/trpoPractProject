@@ -14,12 +14,13 @@ namespace trpoMarkAnalizerProject
     public partial class Form1 : Form
     {
         static public OleDbConnection _connection;
-        
+        private List<Student> _students;
 
         public Form1()
         {
             InitializeComponent();
             InitDB();
+            _students = new List<Student>();
             InitPage();
         }
 
@@ -42,15 +43,38 @@ namespace trpoMarkAnalizerProject
             adapter.SelectCommand.CommandText = "Select * From Subject";
             var tableSub = new DataTable();
             adapter.Fill(tableSub);
-            subjectBox.ValueMember = "id";
+
             subjectBox.DisplayMember = "nameSub";
             subjectBox.DataSource = tableSub;
+            subjectBox.ValueMember = "id";
 
+            //инициализация студентов
+            InitStudents();
 
+        }
 
+        private void InitStudents()
+        {
             List<Student> students = new List<Student>();
-            
+            string query = $"Select * From Student Where idGroup = {groupBox.ValueMember}";
+            OleDbCommand command = new OleDbCommand(query, _connection);
+            var reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    int id = (int)reader["id"];
+                    string name = reader["lastName"].ToString() + reader["firstName"].ToString();
+                    Student tmp = new Student(id, name);
+                    students.Add(tmp);
+                }
+            }
 
+            for (int i = 0; i < students.Count; i++)
+            {
+                students[i].fillMarkMiss(dateTimePicker1.Value, (int)subjectBox.SelectedValue);
+            }
+            _students = students;
         }
 
         private void showJournal()
@@ -84,12 +108,12 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void journalPage_Click(object sender, EventArgs e)
         {
-            tabControl.SelectedIndex = 0;
+            Control.SelectedIndex = 0;
         }
 
         private void studentPage_Click(object sender, EventArgs e)
         {
-            tabControl.SelectedIndex = 1;
+            Control.SelectedIndex = 1;
         }
 
         private void closeBtn_Click(object sender, EventArgs e)

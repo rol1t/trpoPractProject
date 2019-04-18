@@ -57,14 +57,53 @@ namespace trpoMarkAnalizerProject
         public void fillMarkMiss(DateTime date, int idSub)
         {
             //fill Marks in array
-            var commandMark = new OleDbCommand($@"Selct *
-From Marks Inner Join Student
-Where {idSub} = idSub And date >= '{date.ToShortDateString()}' And date <= '{date.AddDays(7).ToShortDateString()}'", 
-Form1._connection);
-            var adapter = new OleDbDataAdapter(commandMark);
-            var dataTable = new DataTable();
-            adapter.Fill(dataTable);
-
+            Marks.Clear();
+            Misses.Clear();
+            string query = $@"Select *
+From Marks Inner Join Student On Student.id = Marks.idStudent
+Where {idSub} = idSub And dateMark >= @dateFrom
+And dateMark <= @dateTo And Student.id = {Id}";
+            var commandMark = new OleDbCommand(query, Form1._connection);
+            var paramDateFrom = new OleDbParameter("@dateFrom", date.ToShortDateString()) ;
+            var paramDateTo = new OleDbParameter("@dateTo", date.AddDays(7).ToShortDateString());
+            commandMark.Parameters.Add(paramDateFrom);
+            commandMark.Parameters.Add(paramDateTo);
+            var reader = commandMark.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Mark tmpMark = new Mark();
+                    tmpMark.Date = (DateTime)reader["dateMark"];
+                    tmpMark.IdSub = (int)reader["idSub"];
+                    tmpMark.Value = (int)reader["valueMark"];
+                    Marks.Add(tmpMark);
+                }
+            }
+            commandMark.Parameters.Clear();
+        
+            //fill miss i array
+            query = $@"Select * 
+From SkipLesson Inner Join Student On Student.id = SkipLesson.idStudent
+Where {idSub} = idSub And dateSkip >= @dateFrom
+And dateSkip <= @dateTo And Student.id = {Id}";
+            var commandMiss = new OleDbCommand(query, Form1._connection);
+            var paramFrom = new OleDbParameter();
+            var paramTo = new OleDbParameter();
+            commandMiss.Parameters.Add(paramDateFrom);
+            commandMiss.Parameters.Add(paramDateTo);
+            reader = commandMiss.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Miss tmpMiss = new Miss();
+                    tmpMiss.date = (DateTime)reader["dateSkip"];
+                    tmpMiss.Hour = (int)reader["hours"];
+                    tmpMiss.IdSub = (int)reader["idSub"];
+                    Misses.Add(tmpMiss);
+                }
+            }
         }
     }
 }
