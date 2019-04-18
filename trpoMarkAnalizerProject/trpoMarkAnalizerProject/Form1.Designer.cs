@@ -29,17 +29,15 @@
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
-            this.journalPage = new System.Windows.Forms.Button();
-            this.studentPage = new System.Windows.Forms.Button();
-            this.subjectPage = new System.Windows.Forms.Button();
-            this.teacherPage = new System.Windows.Forms.Button();
             this.documentPage = new System.Windows.Forms.Button();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.teacherPage = new System.Windows.Forms.Button();
+            this.subjectPage = new System.Windows.Forms.Button();
+            this.studentPage = new System.Windows.Forms.Button();
+            this.journalPage = new System.Windows.Forms.Button();
+            this.Control = new System.Windows.Forms.TabControl();
             this.journalControl = new System.Windows.Forms.TabPage();
-            this.studentControl = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,12 +46,42 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.sendUpdateBtn = new System.Windows.Forms.Button();
             this.journalGrid = new System.Windows.Forms.DataGridView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.studentControl = new System.Windows.Forms.TabPage();
+            this.subjectControl = new System.Windows.Forms.TabPage();
+            this.teacherControl = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Poisk_textBox1 = new System.Windows.Forms.TextBox();
+            this.poisk_button1 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
-            this.tabControl.SuspendLayout();
+            this.Control.SuspendLayout();
             this.journalControl.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.journalGrid)).BeginInit();
+            this.studentControl.SuspendLayout();
+            this.subjectControl.SuspendLayout();
+            this.teacherControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -64,113 +92,112 @@
             this.panel2.Controls.Add(this.subjectPage);
             this.panel2.Controls.Add(this.studentPage);
             this.panel2.Controls.Add(this.journalPage);
-            this.panel2.Location = new System.Drawing.Point(-1, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2);
+            this.panel2.Location = new System.Drawing.Point(-2, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(211, 450);
+            this.panel2.Size = new System.Drawing.Size(316, 692);
             this.panel2.TabIndex = 1;
-            // 
-            // journalPage
-            // 
-            this.journalPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.journalPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.journalPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.journalPage.Location = new System.Drawing.Point(3, 78);
-            this.journalPage.Name = "journalPage";
-            this.journalPage.Size = new System.Drawing.Size(205, 46);
-            this.journalPage.TabIndex = 0;
-            this.journalPage.Text = "Журнал";
-            this.journalPage.UseVisualStyleBackColor = true;
-            this.journalPage.Click += new System.EventHandler(this.journalPage_Click);
-            // 
-            // studentPage
-            // 
-            this.studentPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.studentPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.studentPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.studentPage.Location = new System.Drawing.Point(3, 130);
-            this.studentPage.Name = "studentPage";
-            this.studentPage.Size = new System.Drawing.Size(205, 46);
-            this.studentPage.TabIndex = 1;
-            this.studentPage.Text = "Студенты";
-            this.studentPage.UseVisualStyleBackColor = true;
-            this.studentPage.Click += new System.EventHandler(this.studentPage_Click);
-            // 
-            // subjectPage
-            // 
-            this.subjectPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.subjectPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.subjectPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.subjectPage.Location = new System.Drawing.Point(3, 182);
-            this.subjectPage.Name = "subjectPage";
-            this.subjectPage.Size = new System.Drawing.Size(205, 46);
-            this.subjectPage.TabIndex = 3;
-            this.subjectPage.Text = "Предметы";
-            this.subjectPage.UseVisualStyleBackColor = true;
-            // 
-            // teacherPage
-            // 
-            this.teacherPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.teacherPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.teacherPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.teacherPage.Location = new System.Drawing.Point(3, 234);
-            this.teacherPage.Name = "teacherPage";
-            this.teacherPage.Size = new System.Drawing.Size(205, 46);
-            this.teacherPage.TabIndex = 4;
-            this.teacherPage.Text = "Учителя";
-            this.teacherPage.UseVisualStyleBackColor = true;
             // 
             // documentPage
             // 
             this.documentPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.documentPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.documentPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.documentPage.Location = new System.Drawing.Point(3, 389);
+            this.documentPage.Location = new System.Drawing.Point(4, 598);
+            this.documentPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.documentPage.Name = "documentPage";
-            this.documentPage.Size = new System.Drawing.Size(205, 46);
+            this.documentPage.Size = new System.Drawing.Size(308, 71);
             this.documentPage.TabIndex = 5;
             this.documentPage.Text = "Ведомость";
             this.documentPage.UseVisualStyleBackColor = true;
             // 
-            // tabControl
+            // teacherPage
             // 
-            this.tabControl.Controls.Add(this.journalControl);
-            this.tabControl.Controls.Add(this.studentControl);
-            this.tabControl.Location = new System.Drawing.Point(216, -21);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(616, 488);
-            this.tabControl.TabIndex = 2;
+            this.teacherPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.teacherPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.teacherPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.teacherPage.Location = new System.Drawing.Point(4, 360);
+            this.teacherPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.teacherPage.Name = "teacherPage";
+            this.teacherPage.Size = new System.Drawing.Size(308, 71);
+            this.teacherPage.TabIndex = 4;
+            this.teacherPage.Text = "Преподаватели";
+            this.teacherPage.UseVisualStyleBackColor = true;
+            // 
+            // subjectPage
+            // 
+            this.subjectPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.subjectPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.subjectPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.subjectPage.Location = new System.Drawing.Point(4, 280);
+            this.subjectPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.subjectPage.Name = "subjectPage";
+            this.subjectPage.Size = new System.Drawing.Size(308, 71);
+            this.subjectPage.TabIndex = 3;
+            this.subjectPage.Text = "Предметы";
+            this.subjectPage.UseVisualStyleBackColor = true;
+            // 
+            // studentPage
+            // 
+            this.studentPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.studentPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.studentPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.studentPage.Location = new System.Drawing.Point(4, 200);
+            this.studentPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.studentPage.Name = "studentPage";
+            this.studentPage.Size = new System.Drawing.Size(308, 71);
+            this.studentPage.TabIndex = 1;
+            this.studentPage.Text = "Студенты";
+            this.studentPage.UseVisualStyleBackColor = true;
+            this.studentPage.Click += new System.EventHandler(this.studentPage_Click);
+            // 
+            // journalPage
+            // 
+            this.journalPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.journalPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.journalPage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.journalPage.Location = new System.Drawing.Point(4, 120);
+            this.journalPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.journalPage.Name = "journalPage";
+            this.journalPage.Size = new System.Drawing.Size(308, 71);
+            this.journalPage.TabIndex = 0;
+            this.journalPage.Text = "Журнал";
+            this.journalPage.UseVisualStyleBackColor = true;
+            this.journalPage.Click += new System.EventHandler(this.journalPage_Click);
+            // 
+            // Control
+            // 
+            this.Control.Controls.Add(this.journalControl);
+            this.Control.Controls.Add(this.studentControl);
+            this.Control.Controls.Add(this.subjectControl);
+            this.Control.Controls.Add(this.teacherControl);
+            this.Control.Location = new System.Drawing.Point(321, 14);
+            this.Control.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Control.Name = "Control";
+            this.Control.SelectedIndex = 0;
+            this.Control.Size = new System.Drawing.Size(924, 751);
+            this.Control.TabIndex = 2;
             // 
             // journalControl
             // 
             this.journalControl.Controls.Add(this.tabControl1);
-            this.journalControl.Location = new System.Drawing.Point(4, 22);
+            this.journalControl.Location = new System.Drawing.Point(4, 29);
+            this.journalControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.journalControl.Name = "journalControl";
-            this.journalControl.Padding = new System.Windows.Forms.Padding(3);
-            this.journalControl.Size = new System.Drawing.Size(608, 462);
+            this.journalControl.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.journalControl.Size = new System.Drawing.Size(916, 718);
             this.journalControl.TabIndex = 0;
             this.journalControl.Text = "Журнал";
             this.journalControl.UseVisualStyleBackColor = true;
-            // 
-            // studentControl
-            // 
-            this.studentControl.Location = new System.Drawing.Point(4, 22);
-            this.studentControl.Name = "studentControl";
-            this.studentControl.Padding = new System.Windows.Forms.Padding(3);
-            this.studentControl.Size = new System.Drawing.Size(589, 445);
-            this.studentControl.TabIndex = 1;
-            this.studentControl.Text = "Студенты";
-            this.studentControl.UseVisualStyleBackColor = true;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(0, 11);
+            this.tabControl1.Location = new System.Drawing.Point(0, 17);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(612, 455);
+            this.tabControl1.Size = new System.Drawing.Size(918, 700);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -183,80 +210,78 @@
             this.tabPage1.Controls.Add(this.dateTimePicker1);
             this.tabPage1.Controls.Add(this.sendUpdateBtn);
             this.tabPage1.Controls.Add(this.journalGrid);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(604, 429);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPage1.Size = new System.Drawing.Size(910, 667);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(604, 429);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(200, 10);
+            this.label3.Location = new System.Drawing.Point(300, 15);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.Size = new System.Drawing.Size(48, 20);
             this.label3.TabIndex = 20;
             this.label3.Text = "Дата";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(126, 10);
+            this.label2.Location = new System.Drawing.Point(189, 15);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 13);
+            this.label2.Size = new System.Drawing.Size(61, 20);
             this.label2.TabIndex = 19;
             this.label2.Text = "Группа";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 10);
+            this.label1.Location = new System.Drawing.Point(3, 15);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 13);
+            this.label1.Size = new System.Drawing.Size(79, 20);
             this.label1.TabIndex = 18;
             this.label1.Text = "Предмет";
             // 
             // groupBox
             // 
             this.groupBox.FormattingEnabled = true;
-            this.groupBox.Location = new System.Drawing.Point(129, 29);
+            this.groupBox.Location = new System.Drawing.Point(194, 45);
+            this.groupBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(68, 21);
+            this.groupBox.Size = new System.Drawing.Size(100, 28);
             this.groupBox.TabIndex = 17;
             // 
             // subjectBox
             // 
             this.subjectBox.FormattingEnabled = true;
-            this.subjectBox.Location = new System.Drawing.Point(2, 29);
+            this.subjectBox.Location = new System.Drawing.Point(3, 45);
+            this.subjectBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.subjectBox.Name = "subjectBox";
-            this.subjectBox.Size = new System.Drawing.Size(121, 21);
+            this.subjectBox.Size = new System.Drawing.Size(180, 28);
             this.subjectBox.TabIndex = 16;
             this.subjectBox.SelectedIndexChanged += new System.EventHandler(this.subjectBox_SelectedIndexChanged);
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(203, 29);
+            this.dateTimePicker1.Location = new System.Drawing.Point(304, 45);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(137, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(204, 26);
             this.dateTimePicker1.TabIndex = 15;
             // 
             // sendUpdateBtn
             // 
-            this.sendUpdateBtn.Location = new System.Drawing.Point(478, 29);
+            this.sendUpdateBtn.Location = new System.Drawing.Point(717, 45);
+            this.sendUpdateBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.sendUpdateBtn.Name = "sendUpdateBtn";
-            this.sendUpdateBtn.Size = new System.Drawing.Size(108, 21);
+            this.sendUpdateBtn.Size = new System.Drawing.Size(162, 32);
             this.sendUpdateBtn.TabIndex = 14;
             this.sendUpdateBtn.Text = "Фиксировать";
             this.sendUpdateBtn.UseVisualStyleBackColor = true;
@@ -265,31 +290,278 @@
             // 
             this.journalGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(62)))), ((int)(((byte)(62)))));
             this.journalGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.journalGrid.Location = new System.Drawing.Point(2, 56);
+            this.journalGrid.Location = new System.Drawing.Point(3, 86);
+            this.journalGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.journalGrid.Name = "journalGrid";
-            this.journalGrid.Size = new System.Drawing.Size(584, 330);
+            this.journalGrid.Size = new System.Drawing.Size(876, 508);
             this.journalGrid.TabIndex = 13;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPage2.Size = new System.Drawing.Size(910, 667);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // studentControl
+            // 
+            this.studentControl.Controls.Add(this.button11);
+            this.studentControl.Controls.Add(this.button2);
+            this.studentControl.Controls.Add(this.button1);
+            this.studentControl.Controls.Add(this.comboBox1);
+            this.studentControl.Controls.Add(this.label4);
+            this.studentControl.Controls.Add(this.poisk_button1);
+            this.studentControl.Controls.Add(this.Poisk_textBox1);
+            this.studentControl.Controls.Add(this.dataGridView1);
+            this.studentControl.Location = new System.Drawing.Point(4, 29);
+            this.studentControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.studentControl.Name = "studentControl";
+            this.studentControl.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.studentControl.Size = new System.Drawing.Size(916, 718);
+            this.studentControl.TabIndex = 1;
+            this.studentControl.Text = "Студенты";
+            this.studentControl.UseVisualStyleBackColor = true;
+            // 
+            // subjectControl
+            // 
+            this.subjectControl.Controls.Add(this.button10);
+            this.subjectControl.Controls.Add(this.button3);
+            this.subjectControl.Controls.Add(this.button4);
+            this.subjectControl.Controls.Add(this.button5);
+            this.subjectControl.Controls.Add(this.textBox1);
+            this.subjectControl.Controls.Add(this.dataGridView2);
+            this.subjectControl.Location = new System.Drawing.Point(4, 29);
+            this.subjectControl.Name = "subjectControl";
+            this.subjectControl.Padding = new System.Windows.Forms.Padding(3);
+            this.subjectControl.Size = new System.Drawing.Size(916, 718);
+            this.subjectControl.TabIndex = 2;
+            this.subjectControl.Text = "Предметы";
+            this.subjectControl.UseVisualStyleBackColor = true;
+            // 
+            // teacherControl
+            // 
+            this.teacherControl.Controls.Add(this.button9);
+            this.teacherControl.Controls.Add(this.button6);
+            this.teacherControl.Controls.Add(this.button7);
+            this.teacherControl.Controls.Add(this.button8);
+            this.teacherControl.Controls.Add(this.textBox2);
+            this.teacherControl.Controls.Add(this.dataGridView3);
+            this.teacherControl.Location = new System.Drawing.Point(4, 29);
+            this.teacherControl.Name = "teacherControl";
+            this.teacherControl.Padding = new System.Windows.Forms.Padding(3);
+            this.teacherControl.Size = new System.Drawing.Size(916, 718);
+            this.teacherControl.TabIndex = 3;
+            this.teacherControl.Text = "Преподаватели";
+            this.teacherControl.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(7, 132);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 28;
+            this.dataGridView1.Size = new System.Drawing.Size(902, 501);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // Poisk_textBox1
+            // 
+            this.Poisk_textBox1.Location = new System.Drawing.Point(11, 85);
+            this.Poisk_textBox1.Name = "Poisk_textBox1";
+            this.Poisk_textBox1.Size = new System.Drawing.Size(439, 26);
+            this.Poisk_textBox1.TabIndex = 1;
+            // 
+            // poisk_button1
+            // 
+            this.poisk_button1.Location = new System.Drawing.Point(452, 82);
+            this.poisk_button1.Name = "poisk_button1";
+            this.poisk_button1.Size = new System.Drawing.Size(128, 32);
+            this.poisk_button1.TabIndex = 2;
+            this.poisk_button1.Text = "поиск";
+            this.poisk_button1.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 40);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 20);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Группа:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(78, 37);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(140, 28);
+            this.comboBox1.TabIndex = 4;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(720, 82);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(181, 32);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Удалить";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(720, 44);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(181, 32);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Добавить";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(720, 45);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(181, 32);
+            this.button3.TabIndex = 13;
+            this.button3.Text = "Добавить";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(720, 83);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(181, 32);
+            this.button4.TabIndex = 12;
+            this.button4.Text = "Удалить";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(452, 83);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(128, 32);
+            this.button5.TabIndex = 9;
+            this.button5.Text = "поиск";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(11, 86);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(439, 26);
+            this.textBox1.TabIndex = 8;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(7, 133);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowTemplate.Height = 28;
+            this.dataGridView2.Size = new System.Drawing.Size(902, 501);
+            this.dataGridView2.TabIndex = 7;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(720, 45);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(181, 32);
+            this.button6.TabIndex = 13;
+            this.button6.Text = "Добавить";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(720, 85);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(181, 32);
+            this.button7.TabIndex = 12;
+            this.button7.Text = "Удалить";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(452, 85);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(128, 32);
+            this.button8.TabIndex = 9;
+            this.button8.Text = "поиск";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(11, 88);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(439, 26);
+            this.textBox2.TabIndex = 8;
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Location = new System.Drawing.Point(7, 135);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.RowTemplate.Height = 28;
+            this.dataGridView3.Size = new System.Drawing.Size(902, 501);
+            this.dataGridView3.TabIndex = 7;
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(720, 7);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(181, 32);
+            this.button9.TabIndex = 14;
+            this.button9.Text = "Изменить";
+            this.button9.UseVisualStyleBackColor = true;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(720, 7);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(181, 32);
+            this.button10.TabIndex = 15;
+            this.button10.Text = "Изменить";
+            this.button10.UseVisualStyleBackColor = true;
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(720, 8);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(181, 32);
+            this.button11.TabIndex = 15;
+            this.button11.Text = "Изменить";
+            this.button11.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 447);
-            this.Controls.Add(this.tabControl);
+            this.ClientSize = new System.Drawing.Size(1238, 688);
+            this.Controls.Add(this.Control);
             this.Controls.Add(this.panel2);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
             this.panel2.ResumeLayout(false);
-            this.tabControl.ResumeLayout(false);
+            this.Control.ResumeLayout(false);
             this.journalControl.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.journalGrid)).EndInit();
+            this.studentControl.ResumeLayout(false);
+            this.studentControl.PerformLayout();
+            this.subjectControl.ResumeLayout(false);
+            this.subjectControl.PerformLayout();
+            this.teacherControl.ResumeLayout(false);
+            this.teacherControl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -301,7 +573,7 @@
         private System.Windows.Forms.Button subjectPage;
         private System.Windows.Forms.Button studentPage;
         private System.Windows.Forms.Button journalPage;
-        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabControl Control;
         private System.Windows.Forms.TabPage journalControl;
         private System.Windows.Forms.TabPage studentControl;
         private System.Windows.Forms.TabControl tabControl1;
@@ -315,6 +587,28 @@
         private System.Windows.Forms.Button sendUpdateBtn;
         private System.Windows.Forms.DataGridView journalGrid;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage subjectControl;
+        private System.Windows.Forms.TabPage teacherControl;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button poisk_button1;
+        private System.Windows.Forms.TextBox Poisk_textBox1;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.DataGridView dataGridView3;
     }
 }
 
