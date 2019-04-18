@@ -51,6 +51,36 @@ namespace trpoMarkAnalizerProject
             //инициализация студентов
             InitStudents();
 
+            journalGrid.ColumnCount = 2;
+            journalGrid.RowCount = 1;
+    
+
+            //отображение таблицы
+            DateTime date = dateTimePicker1.Value;
+            for (int i = 0; i < 6; i++)
+            {
+                journalGrid.Columns.Add($"dateClmn{i}", date.ToShortDateString());
+                date = date.AddDays(1);
+            }
+            DataGridViewComboBoxCell markBox = new DataGridViewComboBoxCell();
+            markBox.Items.AddRange(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "Н", "none");
+
+
+            foreach (var item in _students)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                DataGridViewTextBoxCell idCell = new DataGridViewTextBoxCell();
+                idCell.Value = item.Id;
+                DataGridViewTextBoxCell nameCell = new DataGridViewTextBoxCell();
+                nameCell.Value = item.Name;
+                row.Cells.AddRange(idCell, nameCell);
+                for (int i = 0; i < 6; i++)
+                {
+                    
+                }
+            }
+
+
         }
 
         private void InitStudents()

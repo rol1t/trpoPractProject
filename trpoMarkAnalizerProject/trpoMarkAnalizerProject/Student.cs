@@ -12,7 +12,6 @@ namespace trpoMarkAnalizerProject
         public string Name { get; set; }
         public List<Miss> Misses { get; set; }
         public List<Mark> Marks { get; set; }
-
         public class Mark
         {
             public DateTime Date { get; set; }
