@@ -72,5 +72,10 @@ Data Source=C:\Users\Алексей\source\repos\rol1t\trpoPractProject\trpoMark
         {
 
         }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
