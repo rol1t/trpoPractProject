@@ -49,7 +49,7 @@ namespace trpoMarkAnalizerProject
 
         private void showJournal()
         {
-            Dictionary<DateTime, Student> journal = new Dictionary<DateTime, Student>();
+            
         }
 
         private void InitDB()

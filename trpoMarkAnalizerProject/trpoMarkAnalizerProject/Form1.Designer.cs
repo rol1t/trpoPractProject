@@ -89,18 +89,18 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(0, 69);
+            this.dateTimePicker1.Location = new System.Drawing.Point(4, 69);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(137, 20);
             this.dateTimePicker1.TabIndex = 2;
             // 
             // sendUpdateBtn
             // 
-            this.sendUpdateBtn.Location = new System.Drawing.Point(514, 61);
+            this.sendUpdateBtn.Location = new System.Drawing.Point(489, 95);
             this.sendUpdateBtn.Name = "sendUpdateBtn";
-            this.sendUpdateBtn.Size = new System.Drawing.Size(83, 55);
+            this.sendUpdateBtn.Size = new System.Drawing.Size(108, 21);
             this.sendUpdateBtn.TabIndex = 1;
-            this.sendUpdateBtn.Text = "button1";
+            this.sendUpdateBtn.Text = "Фиксировать";
             this.sendUpdateBtn.UseVisualStyleBackColor = true;
             // 
             // journalGrid
