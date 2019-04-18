@@ -66,10 +66,35 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.teacherGrid = new System.Windows.Forms.DataGridView();
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.name_lable = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.adress_label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.Add_label = new System.Windows.Forms.Label();
+            this.firstName_textBox3 = new System.Windows.Forms.TextBox();
+            this.lastName_textBox3 = new System.Windows.Forms.TextBox();
+            this.sureName_textBox3 = new System.Windows.Forms.TextBox();
+            this.adress_textBox3 = new System.Windows.Forms.TextBox();
+            this.Save_button12 = new System.Windows.Forms.Button();
+            this.aducation_comboBox2 = new System.Windows.Forms.ComboBox();
+            this.phoneNumber = new System.Windows.Forms.MaskedTextBox();
+            this.dateBirth = new System.Windows.Forms.MaskedTextBox();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2.SuspendLayout();
             this.Control.SuspendLayout();
             this.journalControl.SuspendLayout();
@@ -81,7 +106,8 @@
             this.teacherControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.teacherGrid)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -344,12 +370,13 @@
             // 
             // teacherControl
             // 
+            this.teacherControl.Controls.Add(this.panel1);
             this.teacherControl.Controls.Add(this.button9);
             this.teacherControl.Controls.Add(this.button6);
             this.teacherControl.Controls.Add(this.button7);
             this.teacherControl.Controls.Add(this.button8);
             this.teacherControl.Controls.Add(this.textBox2);
-            this.teacherControl.Controls.Add(this.dataGridView3);
+            this.teacherControl.Controls.Add(this.teacherGrid);
             this.teacherControl.Location = new System.Drawing.Point(4, 29);
             this.teacherControl.Name = "teacherControl";
             this.teacherControl.Padding = new System.Windows.Forms.Padding(3);
@@ -471,6 +498,7 @@
             this.button6.TabIndex = 13;
             this.button6.Text = "Добавить";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button7
             // 
@@ -480,6 +508,7 @@
             this.button7.TabIndex = 12;
             this.button7.Text = "Удалить";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
@@ -489,6 +518,7 @@
             this.button8.TabIndex = 9;
             this.button8.Text = "поиск";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // textBox2
             // 
@@ -497,15 +527,24 @@
             this.textBox2.Size = new System.Drawing.Size(439, 26);
             this.textBox2.TabIndex = 8;
             // 
-            // dataGridView3
+            // teacherGrid
             // 
-            this.dataGridView3.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(7, 135);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowTemplate.Height = 28;
-            this.dataGridView3.Size = new System.Drawing.Size(902, 501);
-            this.dataGridView3.TabIndex = 7;
+            this.teacherGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.teacherGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.teacherGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5,
+            this.Column6,
+            this.Column7,
+            this.Column8});
+            this.teacherGrid.Location = new System.Drawing.Point(7, 135);
+            this.teacherGrid.Name = "teacherGrid";
+            this.teacherGrid.RowTemplate.Height = 28;
+            this.teacherGrid.Size = new System.Drawing.Size(902, 501);
+            this.teacherGrid.TabIndex = 7;
             // 
             // button9
             // 
@@ -515,6 +554,7 @@
             this.button9.TabIndex = 14;
             this.button9.Text = "Изменить";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button10
             // 
@@ -534,6 +574,234 @@
             this.button11.Text = "Изменить";
             this.button11.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel1.Controls.Add(this.dateBirth);
+            this.panel1.Controls.Add(this.phoneNumber);
+            this.panel1.Controls.Add(this.aducation_comboBox2);
+            this.panel1.Controls.Add(this.Save_button12);
+            this.panel1.Controls.Add(this.adress_textBox3);
+            this.panel1.Controls.Add(this.sureName_textBox3);
+            this.panel1.Controls.Add(this.lastName_textBox3);
+            this.panel1.Controls.Add(this.firstName_textBox3);
+            this.panel1.Controls.Add(this.Add_label);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.adress_label9);
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.name_lable);
+            this.panel1.Location = new System.Drawing.Point(238, 187);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(419, 405);
+            this.panel1.TabIndex = 15;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint_1);
+            // 
+            // name_lable
+            // 
+            this.name_lable.AutoSize = true;
+            this.name_lable.BackColor = System.Drawing.Color.Transparent;
+            this.name_lable.ForeColor = System.Drawing.Color.White;
+            this.name_lable.Location = new System.Drawing.Point(136, 125);
+            this.name_lable.Name = "name_lable";
+            this.name_lable.Size = new System.Drawing.Size(40, 20);
+            this.name_lable.TabIndex = 0;
+            this.name_lable.Text = "Имя";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(95, 93);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(81, 20);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Фамилия";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(93, 157);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(83, 20);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Отчество";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(48, 189);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(128, 20);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Дата рождения";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(66, 221);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(110, 20);
+            this.label8.TabIndex = 4;
+            this.label8.Text = "Образование";
+            // 
+            // adress_label9
+            // 
+            this.adress_label9.AutoSize = true;
+            this.adress_label9.BackColor = System.Drawing.Color.Transparent;
+            this.adress_label9.ForeColor = System.Drawing.Color.White;
+            this.adress_label9.Location = new System.Drawing.Point(119, 254);
+            this.adress_label9.Name = "adress_label9";
+            this.adress_label9.Size = new System.Drawing.Size(57, 20);
+            this.adress_label9.TabIndex = 5;
+            this.adress_label9.Text = "Адрес";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(34, 286);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(142, 20);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "Номер телефона";
+            // 
+            // Add_label
+            // 
+            this.Add_label.AutoSize = true;
+            this.Add_label.BackColor = System.Drawing.Color.Transparent;
+            this.Add_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Add_label.ForeColor = System.Drawing.Color.White;
+            this.Add_label.Location = new System.Drawing.Point(121, 23);
+            this.Add_label.Name = "Add_label";
+            this.Add_label.Size = new System.Drawing.Size(180, 32);
+            this.Add_label.TabIndex = 7;
+            this.Add_label.Text = "Добавление";
+            // 
+            // firstName_textBox3
+            // 
+            this.firstName_textBox3.Location = new System.Drawing.Point(196, 122);
+            this.firstName_textBox3.Name = "firstName_textBox3";
+            this.firstName_textBox3.Size = new System.Drawing.Size(169, 26);
+            this.firstName_textBox3.TabIndex = 8;
+            // 
+            // lastName_textBox3
+            // 
+            this.lastName_textBox3.Location = new System.Drawing.Point(196, 90);
+            this.lastName_textBox3.Name = "lastName_textBox3";
+            this.lastName_textBox3.Size = new System.Drawing.Size(169, 26);
+            this.lastName_textBox3.TabIndex = 9;
+            // 
+            // sureName_textBox3
+            // 
+            this.sureName_textBox3.Location = new System.Drawing.Point(196, 154);
+            this.sureName_textBox3.Name = "sureName_textBox3";
+            this.sureName_textBox3.Size = new System.Drawing.Size(169, 26);
+            this.sureName_textBox3.TabIndex = 10;
+            // 
+            // adress_textBox3
+            // 
+            this.adress_textBox3.Location = new System.Drawing.Point(196, 251);
+            this.adress_textBox3.Name = "adress_textBox3";
+            this.adress_textBox3.Size = new System.Drawing.Size(169, 26);
+            this.adress_textBox3.TabIndex = 13;
+            // 
+            // Save_button12
+            // 
+            this.Save_button12.Location = new System.Drawing.Point(127, 343);
+            this.Save_button12.Name = "Save_button12";
+            this.Save_button12.Size = new System.Drawing.Size(174, 35);
+            this.Save_button12.TabIndex = 15;
+            this.Save_button12.Text = "ок";
+            this.Save_button12.UseVisualStyleBackColor = true;
+            this.Save_button12.Click += new System.EventHandler(this.Save_button12_Click);
+            // 
+            // aducation_comboBox2
+            // 
+            this.aducation_comboBox2.FormattingEnabled = true;
+            this.aducation_comboBox2.Items.AddRange(new object[] {
+            "Высшее",
+            "Среднее",
+            "Начальное"});
+            this.aducation_comboBox2.Location = new System.Drawing.Point(196, 218);
+            this.aducation_comboBox2.Name = "aducation_comboBox2";
+            this.aducation_comboBox2.Size = new System.Drawing.Size(169, 28);
+            this.aducation_comboBox2.TabIndex = 16;
+            // 
+            // phoneNumber
+            // 
+            this.phoneNumber.Location = new System.Drawing.Point(196, 283);
+            this.phoneNumber.Mask = "000000000";
+            this.phoneNumber.Name = "phoneNumber";
+            this.phoneNumber.Size = new System.Drawing.Size(169, 26);
+            this.phoneNumber.TabIndex = 17;
+            // 
+            // dateBirth
+            // 
+            this.dateBirth.Location = new System.Drawing.Point(196, 186);
+            this.dateBirth.Mask = "00.00.0000";
+            this.dateBirth.Name = "dateBirth";
+            this.dateBirth.Size = new System.Drawing.Size(169, 26);
+            this.dateBirth.TabIndex = 18;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "id";
+            this.Column1.Name = "Column1";
+            this.Column1.Visible = false;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Фамилия";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 75;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Имя";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 75;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Отчество";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 85;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Дата рождения";
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 75;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Образование";
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 70;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Адрес";
+            this.Column7.Name = "Column7";
+            this.Column7.Width = 90;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Номер телефона";
+            this.Column8.Name = "Column8";
+            this.Column8.Width = 70;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -542,7 +810,7 @@
             this.Controls.Add(this.Control);
             this.Controls.Add(this.panel2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Автоматизированная система учёта пропусков и отметок учащихся колледжа";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
@@ -561,7 +829,9 @@
             this.teacherControl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.teacherGrid)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -608,7 +878,32 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridView teacherGrid;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label name_lable;
+        private System.Windows.Forms.Button Save_button12;
+        private System.Windows.Forms.TextBox adress_textBox3;
+        private System.Windows.Forms.TextBox sureName_textBox3;
+        private System.Windows.Forms.TextBox lastName_textBox3;
+        private System.Windows.Forms.TextBox firstName_textBox3;
+        private System.Windows.Forms.Label Add_label;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label adress_label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox aducation_comboBox2;
+        private System.Windows.Forms.MaskedTextBox dateBirth;
+        private System.Windows.Forms.MaskedTextBox phoneNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
     }
 }
 
