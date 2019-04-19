@@ -336,65 +336,106 @@ Data Source=Marks1.accdb;Persist Security Info=True");
             {
                 for (int j = 2; j < journalGrid.ColumnCount; j++)
                 {
-                    if (journalGrid[j, i].Value != null && Char.IsDigit(journalGrid[j, i].Value.ToString()[0]))
+                    if (journalGrid[j, i].Value != null)
                     {
-                        string queryCheckMark = "Select * " +
-                            "From Marks " +
-                            $"Where idStudent = {journalGrid.Rows[i].Cells[0].Value} And Marks.dateMark = @date And Marks.valueMark = {journalGrid[j, i].Value} And idSub = {subjectBox.SelectedValue}";
-                        OleDbCommand cmdCheckMark = new OleDbCommand(queryCheckMark, _connection);
-                        OleDbParameter param = new OleDbParameter("@date", journalGrid.Columns[j].HeaderText);
-                        cmdCheckMark.Parameters.Add(param);
-                        var checker = cmdCheckMark.ExecuteReader();
-                        if (checker.HasRows)
-                        {
-                            continue;
-                        }
-                        cmdCheckMark.Parameters.Clear();
+                        int idStudent = (int)journalGrid.Rows[i].Cells[0].Value;
+                        string date = journalGrid.Columns[j].HeaderText;
                         string queryMark = "Select * " +
                             "From Marks " +
-                            $"Where idStudent = {journalGrid.Rows[i].Cells[0].Value} And Marks.dateMark = @date And idSub = {subjectBox.SelectedValue}";
+                            $"Where idStudent = {idStudent} And Marks.dateMark = @date And idSub = {subjectBox.SelectedValue}";
                         OleDbCommand commandMark = new OleDbCommand(queryMark, _connection);
-                        commandMark.Parameters.Add(param);
+                        commandMark.Parameters.Add(new OleDbParameter("@data", date));
                         var readerMark = commandMark.ExecuteReader();
-
-
                         string querySkip = "Select * " +
                             "From SkipLesson " +
-                            $"Where idStudent = {journalGrid.Rows[i].Cells[0].Value} And dateSkip = @date And idSub = {subjectBox.SelectedValue}";
+                            $"Where idStudent = {idStudent} And dateSkip = @date And idSub = {subjectBox.SelectedValue}";
                         OleDbCommand commandSkip = new OleDbCommand(querySkip, _connection);
-                        var paramDateSkip = new OleDbParameter("@date", journalGrid.Columns[j].HeaderText);
+                        var paramDateSkip = new OleDbParameter("@date", date);
                         commandSkip.Parameters.Add(paramDateSkip);
                         var readerSkip = commandSkip.ExecuteReader();
-                        if (readerMark.HasRows)
+                        if (Char.IsDigit(journalGrid[j, i].Value.ToString()[0]))
                         {
-                            string query = $"Update Marks " +
-                                $"Set Marks.valueMark = {journalGrid[j, i].Value} " +
-                                $"Where idStudent = { journalGrid.Rows[i].Cells[0].Value } And Marks.dateMark = @date And idSub = { subjectBox.SelectedValue }";
-                            OleDbCommand updateCmd = new OleDbCommand(query, _connection);
-                            OleDbParameter paramUpdateMark =
-                            updateCmd.Parameters.Add(new OleDbParameter("@date", journalGrid.Columns[j].HeaderText));
-                            resUpdMark += updateCmd.ExecuteNonQuery();
-                        }
-                        else if (readerSkip.HasRows)
-                        {
-                            readerSkip.Read();
-                            string query = $"Delete From SkipLesson Where SkipLesson.id = {readerSkip["id"]}";
-                            OleDbCommand deleteSkip = new OleDbCommand(query, _connection);
-                            resDelSkip += deleteSkip.ExecuteNonQuery();
-                            MessageBox.Show($"Удалено записей: {resDelSkip}");
-                        }
-                        else
-                        {
-                            string query = $"Insert Into Marks(idStudent, idSub, dateMark, valueMark) " +
-                                $"Values({journalGrid.Rows[i].Cells[0].Value}, {subjectBox.SelectedValue}, '{journalGrid.Columns[j].HeaderText}', {journalGrid[j, i].Value})";
-                            OleDbCommand addCommand = new OleDbCommand(query, _connection);
-                            resAddMark += addCommand.ExecuteNonQuery();
-                        }
+                            string queryCheckMark = "Select * " +
+                                "From Marks " +
+                                $"Where idStudent = {idStudent} And Marks.dateMark = @date And Marks.valueMark = {journalGrid[j, i].Value} And idSub = {subjectBox.SelectedValue}";
+                            OleDbCommand cmdCheckMark = new OleDbCommand(queryCheckMark, _connection);
+                            OleDbParameter param = new OleDbParameter("@date", date);
+                            cmdCheckMark.Parameters.Add(param);
+                            var checker = cmdCheckMark.ExecuteReader();
+                            cmdCheckMark.Parameters.Clear();
+                            if (checker.HasRows)
+                            {
+                                continue;
+                            }
+                            if (readerMark.HasRows)
+                            {
+                                string query = $"Update Marks " +
+                                    $"Set Marks.valueMark = {journalGrid[j, i].Value} " +
+                                    $"Where idStudent = { journalGrid.Rows[i].Cells[0].Value } And Marks.dateMark = @date And idSub = { subjectBox.SelectedValue }";
+                                OleDbCommand updateCmd = new OleDbCommand(query, _connection);
+                                OleDbParameter paramUpdateMark =
+                                updateCmd.Parameters.Add(new OleDbParameter("@date", date));
+                                resUpdMark += updateCmd.ExecuteNonQuery();
+                            }
+                            else if (readerSkip.HasRows)
+                            {
+                                readerSkip.Read();
+                                string query = $"Delete From SkipLesson Where SkipLesson.id = {readerSkip["id"]}";
+                                OleDbCommand deleteSkip = new OleDbCommand(query, _connection);
+                                resDelSkip += deleteSkip.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                string query = $"Insert Into Marks(idStudent, idSub, dateMark, valueMark) " +
+                                    $"Values({idStudent}, {subjectBox.SelectedValue}, '{journalGrid.Columns[j].HeaderText}', {journalGrid[j, i].Value})";
+                                OleDbCommand addCommand = new OleDbCommand(query, _connection);
+                                resAddMark += addCommand.ExecuteNonQuery();
+                            }
 
-                    }
-                    else if (journalGrid[j, i].Value.ToString() == "Н")
-                    {
-
+                        }
+                        else if (journalGrid[j, i].Value.ToString() == "Н")
+                        {
+                            if (readerMark.HasRows)
+                            {
+                                string query = $"Delete From Marks " +
+                                    $"Where idStudent = {idStudent} And Marks.dateMark = @date And idSub = { subjectBox.SelectedValue }";
+                                OleDbCommand deleteMarkCmd = new OleDbCommand(query, _connection);
+                                deleteMarkCmd.Parameters.Add(new OleDbParameter("@date", date));
+                                resDelMark += deleteMarkCmd.ExecuteNonQuery();
+                                string addSkipQuery = "Insert Into SkipLesson(idSub, idStudent, dateSkip) " +
+                                    $"Values( {subjectBox.SelectedValue}, {idStudent}, '{date}')";
+                                OleDbCommand addSkipCmd = new OleDbCommand(addSkipQuery, _connection);
+                                resAddSkip += addSkipCmd.ExecuteNonQuery();
+                            }
+                            else if (readerSkip.HasRows)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                string query = $"Insert Into SkipLesson(idStudent, idSub, dateSkip) " +
+                                    $"Values({idStudent}, {subjectBox.SelectedValue}, '{date}')";
+                                OleDbCommand addCommand = new OleDbCommand(query, _connection);
+                                resAddSkip += addCommand.ExecuteNonQuery();
+                            }
+                        }
+                        else if (journalGrid[j, i].Value.ToString() == "none")
+                        {
+                            if (readerMark.HasRows)
+                            {
+                                readerMark.Read();
+                                string query = $"Delete From Marks Where id = {readerMark["id"]}";
+                                OleDbCommand deleteMarkCmd = new OleDbCommand(query, _connection);
+                                resDelMark = deleteMarkCmd.ExecuteNonQuery();
+                            }
+                            if (readerSkip.HasRows)
+                            {
+                                readerSkip.Read();
+                                string query = $"Delete From SkipLesson Where id = {readerSkip["id"]}";
+                                OleDbCommand deleteSkipCmd = new OleDbCommand(query, _connection);
+                                resDelSkip = deleteSkipCmd.ExecuteNonQuery();
+                            }
+                        }
                     }
                     
                 }
