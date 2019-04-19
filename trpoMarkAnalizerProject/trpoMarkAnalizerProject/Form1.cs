@@ -46,29 +46,7 @@ namespace trpoMarkAnalizerProject
         }
 
 
-        private void InitStudents()
-        {
-            List<Student> students = new List<Student>();
-            string query = $"Select * From Student Where idGroup = {groupBox.SelectedValue}";
-            OleDbCommand command = new OleDbCommand(query, _connection);
-            var reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    int id = (int)reader["id"];
-                    string name = reader["lastName"].ToString() + reader["firstName"].ToString();
-                    Student tmp = new Student(id, name);
-                    students.Add(tmp);
-                }
-            }
 
-            for (int i = 0; i < students.Count; i++)
-            {
-                students[i].fillMarkMiss(dateTimePicker1.Value, (int)subjectBox.SelectedValue);
-            }
-            _students = students;
-        }
 
         private void showJournal()
         {
