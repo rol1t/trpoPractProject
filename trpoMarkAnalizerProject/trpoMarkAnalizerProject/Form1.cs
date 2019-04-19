@@ -21,13 +21,13 @@ namespace trpoMarkAnalizerProject
             InitializeComponent();
             InitDB();
             _students = new List<Student>();
-            InitPage();
             TeacherShow();
             SubjectShow();
             StudentShow();
             panel1.Visible = false;
             panel3.Visible = false;
             panel4.Visible = false;
+            InitPage();
             ComboBoxAdd();
             ComboBoxAdd2();
             ComboBoxAdd3();
@@ -35,7 +35,7 @@ namespace trpoMarkAnalizerProject
 
         private void InitPage()
         {
-            InitJournal();
+            ShowJournal();  
         }
 
         public void ComboBoxAdd()
@@ -169,30 +169,6 @@ namespace trpoMarkAnalizerProject
             }
 
 
-        }
-
-        private void InitStudents()
-        {
-            List<Student> students = new List<Student>();
-            string query = $"Select * From Student Where idGroup = {groupBox.ValueMember}";
-            OleDbCommand command = new OleDbCommand(query, _connection);
-            var reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    int id = (int)reader["id"];
-                    string name = reader["lastName"].ToString() + reader["firstName"].ToString();
-                    Student tmp = new Student(id, name);
-                    students.Add(tmp);
-                }
-            }
-
-            for (int i = 0; i < students.Count; i++)
-            {
-                students[i].fillMarkMiss(dateTimePicker1.Value, (int)subjectBox.SelectedValue);
-            }
-            _students = students;
         }
 
         private void showJournal()
@@ -548,5 +524,6 @@ Data Source=Marks1.accdb;Persist Security Info=True");
             comboBox1.Text = "";
             textBox11.Text = "";
         }
+
     }
 }
