@@ -329,7 +329,9 @@ Data Source=Marks1.accdb;Persist Security Info=True");
         private void sendUpdateBtn_Click(object sender, EventArgs e)
         {
             List<Student.Mark> marks = new List<Student.Mark>();
-            List<Student.Miss> misses = new List<Student.Miss>(); 
+            List<Student.Miss> misses = new List<Student.Miss>();
+            int resUpdMark, resAddMark, resDelMark, resAddSkip, resDelSkip;
+            resUpdMark = resAddMark = resDelMark = resAddSkip = resDelSkip = 0;
             for (int i = 0; i < journalGrid.RowCount - 1; i++)
             {
                 for (int j = 2; j < journalGrid.ColumnCount; j++)
@@ -354,7 +356,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                         OleDbCommand commandMark = new OleDbCommand(queryMark, _connection);
                         commandMark.Parameters.Add(param);
                         var readerMark = commandMark.ExecuteReader();
-                        
+
 
                         string querySkip = "Select * " +
                             "From SkipLesson " +
@@ -369,27 +371,41 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                                 $"Set Marks.valueMark = {journalGrid[j, i].Value} " +
                                 $"Where idStudent = { journalGrid.Rows[i].Cells[0].Value } And Marks.dateMark = @date And idSub = { subjectBox.SelectedValue }";
                             OleDbCommand updateCmd = new OleDbCommand(query, _connection);
-                            OleDbParameter paramUpdateMark = 
+                            OleDbParameter paramUpdateMark =
                             updateCmd.Parameters.Add(new OleDbParameter("@date", journalGrid.Columns[j].HeaderText));
-                            int result = updateCmd.ExecuteNonQuery();
-                            MessageBox.Show($"Изменено записей: {result}");
+                            resUpdMark += updateCmd.ExecuteNonQuery();
                         }
                         else if (readerSkip.HasRows)
                         {
+                            readerSkip.Read();
                             string query = $"Delete From SkipLesson Where SkipLesson.id = {readerSkip["id"]}";
                             OleDbCommand deleteSkip = new OleDbCommand(query, _connection);
-                            var resDelSkip = deleteSkip.ExecuteNonQuery();
+                            resDelSkip += deleteSkip.ExecuteNonQuery();
                             MessageBox.Show($"Удалено записей: {resDelSkip}");
                         }
                         else
                         {
-
+                            string query = $"Insert Into Marks(idStudent, idSub, dateMark, valueMark) " +
+                                $"Values({journalGrid.Rows[i].Cells[0].Value}, {subjectBox.SelectedValue}, '{journalGrid.Columns[j].HeaderText}', {journalGrid[j, i].Value})";
+                            OleDbCommand addCommand = new OleDbCommand(query, _connection);
+                            resAddMark += addCommand.ExecuteNonQuery();
                         }
+
+                    }
+                    else if (journalGrid[j, i].Value.ToString() == "Н")
+                    {
 
                     }
                     
                 }
             }
+            MessageBox.Show($@"
+Обновлено отметок:      {resUpdMark}
+Добавлено отметок:      {resAddMark}
+Удалено отметок  :      {resDelMark}
+Добавлено пропусков:    {resAddSkip}
+Удалено пропусков:      {resDelSkip}
+");
         }
 
         private void journalGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
