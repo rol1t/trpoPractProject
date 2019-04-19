@@ -28,7 +28,7 @@ namespace trpoMarkAnalizerProject
 
         private void InitPage()
         {
-            InitJournal();
+            ShowJournal();
         }
 
         public void TeacherShow()
@@ -45,7 +45,7 @@ namespace trpoMarkAnalizerProject
             aducation_comboBox2.SelectedIndex = -1;
         }
 
-        private void InitJournal()
+        private void ShowJournal()
         {
             //init group combobox
             var adapter = new OleDbDataAdapter("SELECT Group.id, Group.nameGroup FROM[Group]; ", _connection);
@@ -69,17 +69,19 @@ namespace trpoMarkAnalizerProject
 
             journalGrid.ColumnCount = 2;
             journalGrid.RowCount = 1;
+            journalGrid.RowHeadersVisible = false;
     
 
             //отображение таблицы
             DateTime date = dateTimePicker1.Value;
             for (int i = 0; i < 6; i++)
             {
-                journalGrid.Columns.Add($"dateClmn{i}", date.ToShortDateString());
+                journalGrid.Columns.Add($"{date.ToShortDateString()}", date.ToShortDateString());
+                journalGrid.Columns[journalGrid.ColumnCount - 1].Width = 75;
                 date = date.AddDays(1);
             }
             DataGridViewComboBoxCell markBox = new DataGridViewComboBoxCell();
-            markBox.Items.AddRange(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "Н", "none");
+            markBox.Items.AddRange("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Н", "none");
 
 
             foreach (var item in _students)
@@ -92,9 +94,26 @@ namespace trpoMarkAnalizerProject
                 row.Cells.AddRange(idCell, nameCell);
                 for (int i = 0; i < 6; i++)
                 {
-                    
+                    var tmpCell = (DataGridViewComboBoxCell)markBox.Clone();
+                    row.Cells.Add(tmpCell);
                 }
+                foreach (var mark in item.Marks)
+                {
+                    if (journalGrid.Columns.Contains(mark.Date.ToShortDateString()))
+                    {
+                        row.Cells[(mark.Date - dateTimePicker1.Value).Days + 2].Value = mark.Value.ToString();
+                    }
+                }
+                foreach (var miss in item.Misses)
+                {
+                    if (journalGrid.Columns.Contains(miss.date.ToShortDateString()))
+                    {
+                        row.Cells[(miss.date - dateTimePicker1.Value).Days + 2].Value = "Н";
+                    }
+                }
+                journalGrid.Rows.Add(row);  
             }
+
 
 
         }
@@ -102,7 +121,7 @@ namespace trpoMarkAnalizerProject
         private void InitStudents()
         {
             List<Student> students = new List<Student>();
-            string query = $"Select * From Student Where idGroup = {groupBox.ValueMember}";
+            string query = $"Select * From Student Where idGroup = {groupBox.SelectedValue}";
             OleDbCommand command = new OleDbCommand(query, _connection);
             var reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -305,6 +324,78 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                 command.ExecuteNonQuery();
             }
             TeacherShow();
+        }
+
+        private void sendUpdateBtn_Click(object sender, EventArgs e)
+        {
+            List<Student.Mark> marks = new List<Student.Mark>();
+            List<Student.Miss> misses = new List<Student.Miss>(); 
+            for (int i = 0; i < journalGrid.RowCount - 1; i++)
+            {
+                for (int j = 2; j < journalGrid.ColumnCount; j++)
+                {
+                    if (journalGrid[j, i].Value != null && Char.IsDigit(journalGrid[j, i].Value.ToString()[0]))
+                    {
+                        string queryCheckMark = "Select * " +
+                            "From Marks " +
+                            $"Where idStudent = {journalGrid.Rows[i].Cells[0].Value} And Marks.dateMark = @date And Marks.valueMark = {journalGrid[j, i].Value} And idSub = {subjectBox.SelectedValue}";
+                        OleDbCommand cmdCheckMark = new OleDbCommand(queryCheckMark, _connection);
+                        OleDbParameter param = new OleDbParameter("@date", journalGrid.Columns[j].HeaderText);
+                        cmdCheckMark.Parameters.Add(param);
+                        var checker = cmdCheckMark.ExecuteReader();
+                        if (checker.HasRows)
+                        {
+                            continue;
+                        }
+                        cmdCheckMark.Parameters.Clear();
+                        string queryMark = "Select * " +
+                            "From Marks " +
+                            $"Where idStudent = {journalGrid.Rows[i].Cells[0].Value} And Marks.dateMark = @date And idSub = {subjectBox.SelectedValue}";
+                        OleDbCommand commandMark = new OleDbCommand(queryMark, _connection);
+                        commandMark.Parameters.Add(param);
+                        var readerMark = commandMark.ExecuteReader();
+                        
+
+                        string querySkip = "Select * " +
+                            "From SkipLesson " +
+                            $"Where idStudent = {journalGrid.Rows[i].Cells[0].Value} And dateSkip = @date And idSub = {subjectBox.SelectedValue}";
+                        OleDbCommand commandSkip = new OleDbCommand(querySkip, _connection);
+                        var paramDateSkip = new OleDbParameter("@date", journalGrid.Columns[j].HeaderText);
+                        commandSkip.Parameters.Add(paramDateSkip);
+                        var readerSkip = commandSkip.ExecuteReader();
+                        if (readerMark.HasRows)
+                        {
+                            string query = $"Update Marks " +
+                                $"Set Marks.valueMark = {journalGrid[j, i].Value} " +
+                                $"Where idStudent = { journalGrid.Rows[i].Cells[0].Value } And Marks.dateMark = @date And idSub = { subjectBox.SelectedValue }";
+                            OleDbCommand updateCmd = new OleDbCommand(query, _connection);
+                            OleDbParameter paramUpdateMark = 
+                            updateCmd.Parameters.Add(new OleDbParameter("@date", journalGrid.Columns[j].HeaderText));
+                            int result = updateCmd.ExecuteNonQuery();
+                            MessageBox.Show($"Изменено записей: {result}");
+                        }
+                        else if (readerSkip.HasRows)
+                        {
+                            string query = $"Delete From SkipLesson Where SkipLesson.id = {readerSkip["id"]}";
+                            OleDbCommand deleteSkip = new OleDbCommand(query, _connection);
+                            var resDelSkip = deleteSkip.ExecuteNonQuery();
+                            MessageBox.Show($"Удалено записей: {resDelSkip}");
+                        }
+                        else
+                        {
+
+                        }
+
+                    }
+                    
+                }
+            }
+        }
+
+        private void journalGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+            
         }
     }
 }

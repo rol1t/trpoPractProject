@@ -53,15 +53,25 @@ namespace trpoMarkAnalizerProject
             Marks = new List<Mark>();
         }
 
-        public void fillMarkMiss(DateTime date, int idSub)
+        public void fillMarkMiss(DateTime date, int idSub = -1)
         {
             //fill Marks in array
             Marks.Clear();
             Misses.Clear();
-            string query = $@"Select *
+            string query;
+            if (idSub != -1)
+            {
+                query = $@"Select *
 From Marks Inner Join Student On Student.id = Marks.idStudent
 Where {idSub} = idSub And dateMark >= @dateFrom
 And dateMark <= @dateTo And Student.id = {Id}";
+            }
+            else
+            {
+                query = query = $@"Select *
+From Marks Inner Join Student On Student.id = Marks.idStudent
+Where dateMark >= @dateFrom And dateMark <= @dateTo And Student.id = {Id}";
+            }
             var commandMark = new OleDbCommand(query, Form1._connection);
             var paramDateFrom = new OleDbParameter("@dateFrom", date.ToShortDateString()) ;
             var paramDateTo = new OleDbParameter("@dateTo", date.AddDays(7).ToShortDateString());
@@ -80,12 +90,21 @@ And dateMark <= @dateTo And Student.id = {Id}";
                 }
             }
             commandMark.Parameters.Clear();
-        
+
             //fill miss i array
-            query = $@"Select * 
+            if (idSub != -1)
+            {
+                query = $@"Select * 
 From SkipLesson Inner Join Student On Student.id = SkipLesson.idStudent
 Where {idSub} = idSub And dateSkip >= @dateFrom
 And dateSkip <= @dateTo And Student.id = {Id}";
+            }
+            else
+            {
+                query = $@"Select * 
+From SkipLesson Inner Join Student On Student.id = SkipLesson.idStudent
+Where dateSkip <= @dateTo And Student.id = {Id}";
+            }
             var commandMiss = new OleDbCommand(query, Form1._connection);
             var paramFrom = new OleDbParameter();
             var paramTo = new OleDbParameter();
