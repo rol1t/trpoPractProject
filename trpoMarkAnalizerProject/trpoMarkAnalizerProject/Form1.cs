@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
+using Word = Microsoft.Office.Interop.Word;
+
 
 namespace trpoMarkAnalizerProject
 {
@@ -21,21 +24,27 @@ namespace trpoMarkAnalizerProject
             InitializeComponent();
             InitDB();
             _students = new List<Student>();
-            InitPage();
             TeacherShow();
             SubjectShow();
             StudentShow();
+            
             panel1.Visible = false;
             panel3.Visible = false;
             panel4.Visible = false;
+            InitPage();
             ComboBoxAdd();
             ComboBoxAdd2();
             ComboBoxAdd3();
+            ComboBoxAdd4();
         }
 
         private void InitPage()
         {
-            InitJournal();
+            studentGrid.AllowUserToAddRows = false;
+            teacherGrid.AllowUserToAddRows = false;
+            subjectGrid.AllowUserToAddRows = false;
+            updateComboBox();
+            ShowJournal();  
         }
 
         public void ComboBoxAdd()
@@ -43,15 +52,23 @@ namespace trpoMarkAnalizerProject
             string query = "SELECT nameGroup, id FROM [Group]";
             OleDbDataAdapter da = new OleDbDataAdapter(query, _connection);
             DataTable ds = new DataTable();
-            da.Fill(ds);
-            comboBox3.DataSource = ds;
-            comboBox3.DisplayMember = "nameGroup";
-            comboBox3.ValueMember = "id";
-            comboBox3.SelectedIndex = -1;
+            da.Fill(ds);           
             comboBox1.DataSource = ds;
             comboBox1.DisplayMember = "nameGroup";
             comboBox1.ValueMember = "id";
             comboBox1.SelectedIndex = -1;
+        }
+
+        public void ComboBoxAdd4()
+        {
+            string query = "SELECT nameGroup, id FROM [Group]";
+            OleDbDataAdapter da = new OleDbDataAdapter(query, _connection);
+            DataTable ds = new DataTable();
+            da.Fill(ds);
+            groupStudentBox.DataSource = ds;
+            groupStudentBox.DisplayMember = "nameGroup";
+            groupStudentBox.ValueMember = "id";
+            groupStudentBox.SelectedIndex = -1;            
         }
 
         public void ComboBoxAdd2()
@@ -171,30 +188,6 @@ namespace trpoMarkAnalizerProject
 
         }
 
-        private void InitStudents()
-        {
-            List<Student> students = new List<Student>();
-            string query = $"Select * From Student Where idGroup = {groupBox.ValueMember}";
-            OleDbCommand command = new OleDbCommand(query, _connection);
-            var reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    int id = (int)reader["id"];
-                    string name = reader["lastName"].ToString() + reader["firstName"].ToString();
-                    Student tmp = new Student(id, name);
-                    students.Add(tmp);
-                }
-            }
-
-            for (int i = 0; i < students.Count; i++)
-            {
-                students[i].fillMarkMiss(dateTimePicker1.Value, (int)subjectBox.SelectedValue);
-            }
-            _students = students;
-        }
-
         private void showJournal()
         {
             List<Student> students = new List<Student>();
@@ -226,11 +219,13 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void journalPage_Click(object sender, EventArgs e)
         {
+            currentPageInd.Location = journalPage.Location;
             Control.SelectedIndex = 0;
         }
 
         private void studentPage_Click(object sender, EventArgs e)
         {
+            currentPageInd.Location = studentPage.Location;
             Control.SelectedIndex = 1;
         }
 
@@ -256,7 +251,11 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void subjectBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (groupBox.DataSource != null && subjectBox.DataSource != null 
+                && groupBox.ValueMember != "" && subjectBox.ValueMember != "")
+            {
+                ShowJournal();
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -329,25 +328,46 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void Save_button12_Click(object sender, EventArgs e)
         {
-            if (Add_label.Text == "Добавление")
+            try
             {
-                if ((lastName_textBox3.Text == "") || (firstName_textBox3.Text == "") || (sureName_textBox3.Text == "") || (aducation_comboBox2.Text == "") || (adress_textBox3.Text == "") || (phoneNumber.Text == ""))
+                if (Add_label.Text == "Добавление")
                 {
-                    MessageBox.Show("Заполните все поля");
-                }
-                else
-                {
-                    if ((Convert.ToDateTime(dateBirth.Text) < Convert.ToDateTime("01.01.1950")) || (Convert.ToDateTime(dateBirth.Text) > Convert.ToDateTime("01.01.1998")))
+                    if ((lastName_textBox3.Text == "") || (firstName_textBox3.Text == "") || (sureName_textBox3.Text == "") || (aducation_comboBox2.Text == "") || (adress_textBox3.Text == "") || (phoneNumber.Text == ""))
                     {
-                        MessageBox.Show("Укажите дату корректно");
+                        MessageBox.Show("Заполните все поля");
                     }
                     else
                     {
-                        int j = teacherGrid.RowCount - 2;
-                        int id = Convert.ToInt32(teacherGrid[0, j].Value.ToString());
-                        int newi = id + 1;
-                        string newid = newi.ToString();
-                        string query = $"INSERT INTO Teacher VALUES ('{newid}','{lastName_textBox3.Text}','{firstName_textBox3.Text}','{sureName_textBox3.Text}','{dateBirth.Text}', '{aducation_comboBox2.Text}', '{adress_textBox3.Text}', '{phoneNumber.Text}')";
+                        if ((Convert.ToDateTime(dateBirth.Text) < Convert.ToDateTime("01.01.1950")) || (Convert.ToDateTime(dateBirth.Text) > Convert.ToDateTime("01.01.1998")))
+                        {
+                            MessageBox.Show("Укажите дату корректно");
+                        }
+                        else
+                        {
+                            int j = teacherGrid.RowCount - 2;
+                            int id = Convert.ToInt32(teacherGrid[0, j].Value.ToString());
+                            int newi = id + 1;
+                            string newid = newi.ToString();
+                            string query = $"INSERT INTO Teacher VALUES ('{newid}','{lastName_textBox3.Text}','{firstName_textBox3.Text}','{sureName_textBox3.Text}','{dateBirth.Text}', '{aducation_comboBox2.Text}', '{adress_textBox3.Text}', '{phoneNumber.Text}')";
+                            OleDbCommand command = new OleDbCommand(query, _connection);
+                            command.ExecuteNonQuery();
+                            TeacherShow();
+                            panel1.Visible = false;
+                        }
+                    }
+                }
+                else
+                if (Add_label.Text == "Изменение")
+                {
+                    int index = teacherGrid.CurrentRow.Index;
+                    if (index == teacherGrid.RowCount - 1)
+                    {
+                        MessageBox.Show("Выберите заполненную сторку");
+                    }
+                    else
+                    {
+                        int id = Convert.ToInt32(teacherGrid[0, index].Value.ToString());
+                        string query = $"UPDATE Teacher SET lastName = '{lastName_textBox3.Text}', firstName = '{firstName_textBox3.Text}', sureName = '{sureName_textBox3.Text}', dateBirth = '{dateBirth.Text}', aducation = '{aducation_comboBox2.Text}', address = '{adress_textBox3.Text}', phoneNum = '{phoneNumber.Text}' WHERE Teacher.id = {id}";
                         OleDbCommand command = new OleDbCommand(query, _connection);
                         command.ExecuteNonQuery();
                         TeacherShow();
@@ -355,23 +375,9 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                     }
                 }
             }
-            else
-            if (Add_label.Text == "Изменение")
+            catch (Exception a)
             {
-                int index = teacherGrid.CurrentRow.Index;
-                if (index == teacherGrid.RowCount - 1)
-                {
-                    MessageBox.Show("Выберите заполненную сторку");
-                }
-                else
-                {
-                    int id = Convert.ToInt32(teacherGrid[0, index].Value.ToString());
-                    string query = $"UPDATE Teacher SET lastName = '{lastName_textBox3.Text}', firstName = '{firstName_textBox3.Text}', sureName = '{sureName_textBox3.Text}', dateBirth = '{dateBirth.Text}', aducation = '{aducation_comboBox2.Text}', address = '{adress_textBox3.Text}', phoneNum = '{phoneNumber.Text}' WHERE Teacher.id = {id}";
-                    OleDbCommand command = new OleDbCommand(query, _connection);
-                    command.ExecuteNonQuery();
-                    TeacherShow();
-                    panel1.Visible = false;
-                }
+                MessageBox.Show(a.Message);
             }
         }
 
@@ -398,20 +404,24 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button7_Click(object sender, EventArgs e)
         {
-            panel1.Visible = false;
-            int index = teacherGrid.CurrentRow.Index;
-            if (index == teacherGrid.RowCount - 1)
+            var res = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            if (res == DialogResult.Yes)
             {
-                MessageBox.Show("Выберите заполненную сторку");
+                panel1.Visible = false;
+                int index = teacherGrid.CurrentRow.Index;
+                if (index == teacherGrid.RowCount - 1)
+                {
+                    MessageBox.Show("Выберите заполненную сторку");
+                }
+                else
+                {
+                    int id = Convert.ToInt32(teacherGrid[0, index].Value.ToString());
+                    string query = $"DELETE FROM Teacher WHERE Teacher.id = {id}";
+                    OleDbCommand command = new OleDbCommand(query, _connection);
+                    command.ExecuteNonQuery();
+                }
+                TeacherShow();
             }
-            else
-            {
-                int id = Convert.ToInt32(teacherGrid[0, index].Value.ToString());
-                string query = $"DELETE FROM Teacher WHERE Teacher.id = {id}";
-                OleDbCommand command = new OleDbCommand(query, _connection);
-                command.ExecuteNonQuery();
-            }
-            TeacherShow();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -441,20 +451,24 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button4_Click(object sender, EventArgs e)
         {
-            panel3.Visible = false;
-            int index = subjectGrid.CurrentRow.Index;
-            if (index == subjectGrid.RowCount - 1)
+            var res = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            if (res == DialogResult.Yes)
             {
-                MessageBox.Show("Выберите заполненную сторку");
+                panel3.Visible = false;
+                int index = subjectGrid.CurrentRow.Index;
+                if (index == subjectGrid.RowCount - 1)
+                {
+                    MessageBox.Show("Выберите заполненную сторку");
+                }
+                else
+                {
+                    int id = Convert.ToInt32(subjectGrid[0, index].Value.ToString());
+                    string query = $"DELETE FROM Subject WHERE Subject.id = {id}";
+                    OleDbCommand command = new OleDbCommand(query, _connection);
+                    command.ExecuteNonQuery();
+                }
+                SubjectShow();
             }
-            else
-            {
-                int id = Convert.ToInt32(subjectGrid[0, index].Value.ToString());
-                string query = $"DELETE FROM Subject WHERE Subject.id = {id}";
-                OleDbCommand command = new OleDbCommand(query, _connection);
-                command.ExecuteNonQuery();
-            }
-            SubjectShow();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -483,43 +497,51 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button8_Click_1(object sender, EventArgs e)
         {
-            if (label11.Text == "Добавление")
+            try
             {
-                if ((comboBox4.Text == "") || (comboBox2.Text == ""))
+                if (label11.Text == "Добавление")
                 {
-                    MessageBox.Show("Заполните все поля");
+                    if ((comboBox4.Text == "") || (comboBox2.Text == ""))
+                    {
+                        MessageBox.Show("Заполните все поля");
+                    }
+                    else
+                    {
+                        int j = subjectGrid.RowCount - 2;
+                        int id = Convert.ToInt32(subjectGrid[0, j].Value.ToString());
+                        int newi = id + 1;
+                        string newid = newi.ToString();
+                        string query = $"INSERT INTO Subject(idTeacher, nameSub) VALUES ({comboBox4.SelectedValue},'{comboBox2.Text}')";
+                        OleDbCommand command = new OleDbCommand(query, _connection);
+                        command.ExecuteNonQuery();
+                        SubjectShow();
+                        panel3.Visible = false;
+                    }
                 }
                 else
+               if (label11.Text == "Изменение")
                 {
-                    int j = subjectGrid.RowCount - 2;
-                    int id = Convert.ToInt32(subjectGrid[0, j].Value.ToString());
-                    int newi = id + 1;
-                    string newid = newi.ToString();
-                    string query = $"INSERT INTO Subject(idTeacher, nameSub) VALUES ({comboBox4.SelectedValue},'{comboBox2.Text}')";
-                    OleDbCommand command = new OleDbCommand(query, _connection);
-                    command.ExecuteNonQuery();
-                    SubjectShow();
-                    panel3.Visible = false;
+                    int index = subjectGrid.CurrentRow.Index;
+                    if (index == subjectGrid.RowCount - 1)
+                    {
+                        MessageBox.Show("Выберите заполненную сторку");
+                    }
+                    else
+                    {
+                        int id = Convert.ToInt32(subjectGrid[0, index].Value.ToString());
+                        string query = $"UPDATE Subject SET idTeacher = '{comboBox4.SelectedValue}', nameSub = '{comboBox2.Text}' WHERE Subject.id = {id}";
+                        OleDbCommand command = new OleDbCommand(query, _connection);
+                        command.ExecuteNonQuery();
+                        SubjectShow();
+                        panel3.Visible = false;
+                    }
                 }
             }
-            else
-           if (label11.Text == "Изменение")
+            catch (Exception a)
             {
-                int index = subjectGrid.CurrentRow.Index;
-                if (index == subjectGrid.RowCount - 1)
-                {
-                    MessageBox.Show("Выберите заполненную сторку");
-                }
-                else
-                {
-                    int id = Convert.ToInt32(subjectGrid[0, index].Value.ToString());
-                    string query = $"UPDATE Subject SET idTeacher = '{comboBox4.SelectedValue}', nameSub = '{comboBox2.Text}' WHERE Subject.id = {id}";
-                    OleDbCommand command = new OleDbCommand(query, _connection);
-                    command.ExecuteNonQuery();
-                    SubjectShow();
-                    panel3.Visible = false;
-                }
+                MessageBox.Show(a.Message);
             }
+            updateComboBox();
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
@@ -547,6 +569,214 @@ Data Source=Marks1.accdb;Persist Security Info=True");
             StudentShow();
             comboBox1.Text = "";
             textBox11.Text = "";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            label19.Text = "Добавление";
+            groupStudentBox.Text = "";
+            textBox9.Text = "";
+            textBox10.Text = "";
+            textBox8.Text = "";
+            textBox7.Text = "";
+            maskedTextBox4.Text = "";
+            panel4.Visible = true;
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            int index = studentGrid.CurrentRow.Index;
+            if (index == studentGrid.RowCount - 1)
+            {
+                MessageBox.Show("Выберите заполненную сторку");
+            }
+            else
+            {
+                label19.Text = "Изменение";
+                groupStudentBox.Text = studentGrid[1, index].Value.ToString();
+                textBox9.Text = studentGrid[2, index].Value.ToString();
+                textBox10.Text = studentGrid[3, index].Value.ToString();
+                textBox8.Text = studentGrid[4, index].Value.ToString();
+                textBox7.Text = studentGrid[5, index].Value.ToString();
+                maskedTextBox4.Text = studentGrid[6, index].Value.ToString();
+                panel4.Visible = true;
+            }
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (label19.Text == "Добавление")
+                {
+                    if ((groupStudentBox.Text == "") || (textBox9.Text == "") || (textBox10.Text == "") || (textBox8.Text == "") || (textBox7.Text == "") || (maskedTextBox4.Text == ""))
+                    {
+                        MessageBox.Show("Заполните все поля");
+                    }
+                    else
+                    {
+                        int j = studentGrid.RowCount - 2;
+                        string query = $"INSERT INTO Student(idGroup, lastName, firstName, sureName, address, phoneNum) VALUES ({groupStudentBox.SelectedValue},'{textBox9.Text}','{textBox10.Text}','{textBox8.Text}', '{textBox7.Text}', '{maskedTextBox4.Text}')";
+                        OleDbCommand command = new OleDbCommand(query, _connection);
+                        command.ExecuteNonQuery();
+                        panel4.Visible = false;
+                    }
+                }
+                else
+                if (label19.Text == "Изменение")
+                {
+                    int index = studentGrid.CurrentRow.Index;
+                    if (index == studentGrid.RowCount - 1)
+                    {
+                        MessageBox.Show("Выберите заполненную сторку");
+                    }
+                    else
+                    {
+                        int id = Convert.ToInt32(studentGrid[0, index].Value.ToString());
+                        string query = $"UPDATE Student SET idGroup = {groupStudentBox.SelectedValue}, lastName = '{textBox9.Text}', firstName = '{textBox10.Text}', sureName = '{textBox8.Text}', address = '{textBox7.Text}', phoneNum = '{maskedTextBox4.Text}' WHERE Student.id = {id}";
+                        OleDbCommand command = new OleDbCommand(query, _connection);
+                        command.ExecuteNonQuery();
+                        StudentShow();
+                        panel4.Visible = false;
+                    }
+                }
+                StudentShow();
+            }
+            catch (Exception a)
+            {
+                MessageBox.Show(a.Message);
+            }
+}
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var res = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            if (res == DialogResult.Yes)
+            {
+                panel4.Visible = false;
+                int index = studentGrid.CurrentRow.Index;
+                if (index == studentGrid.RowCount - 1)
+                {
+                    MessageBox.Show("Выберите заполненную сторку");
+                }
+                else
+                {
+                    int id = Convert.ToInt32(studentGrid[0, index].Value.ToString());
+                    string query = $"DELETE FROM Student WHERE Student.id = {id}";
+                    OleDbCommand command = new OleDbCommand(query, _connection);
+                    command.ExecuteNonQuery();
+                }
+                StudentShow();
+            }
+        }
+
+        private void groupBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (groupBox.DataSource != null && subjectBox.DataSource != null
+                && groupBox.ValueMember != "" && subjectBox.ValueMember != "")
+            {
+                ShowJournal();
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (groupBox.DataSource != null && subjectBox.DataSource != null
+                && groupBox.ValueMember != "" && subjectBox.ValueMember != "")
+            {
+                ShowJournal();
+            }
+        }
+
+        private void subjectPage_Click(object sender, EventArgs e)
+        {
+            currentPageInd.Location = subjectPage.Location;
+            Control.SelectedIndex = 2;
+        }
+
+        private void teacherPage_Click(object sender, EventArgs e)
+        {
+            currentPageInd.Location = teacherPage.Location;
+            Control.SelectedIndex = 3;
+        }
+
+        private void dateTimePicker1_ValueChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void documentPage_Click(object sender, EventArgs e)
+        {
+            var date = dateTimePicker1.Value;
+            Task.Run(() =>
+            {
+                // Создаём экземпляр нашего приложения
+                Excel.Application excelApp = new Excel.Application();
+                // Создаём экземпляр рабочий книги Excel
+                Excel.Workbook workBook;
+                // Создаём экземпляр листа Excel
+                Excel.Worksheet workSheet;
+                
+                workBook = excelApp.Workbooks.Add();
+                workSheet = (Excel.Worksheet)workBook.Worksheets.get_Item(1);
+                var students = CreateCustomStudentArray(1, 30);
+                workSheet.Cells[1, 1] = "Номер";
+                workSheet.Cells[1, 2] = "Имя";
+                workSheet.Columns[2].ColumnWidth = 30;
+                var dateList = new List<DateTime>();
+                for (int i = 3; i < 33; i++)
+                {
+                    workSheet.Cells[1, i] = date.Day;
+                    workSheet.Columns[i].ColumnWidth = 2;
+                    dateList.Add(date);
+                    date = date.AddDays(1);
+                }
+
+                for (int i = 0; i < students.Count; i++)
+                {
+                    var student = students[i];
+                    workSheet.Cells[i + 2, 1] = i + 1;
+                    workSheet.Cells[i + 2, 2] = student.Name;
+                    for (int j = 3; j < 33; j++)
+                    {
+                        var checkDate = from d in student.Misses
+                                        where d.date.Day == workSheet.Cells[1, j].Value
+                                        select d;
+                        if (checkDate.Count() != 0)
+                        {
+                            workSheet.Cells[i + 2, j] = checkDate.Count();
+                        }
+
+                    }
+                    var rng = workSheet.Range[$"AG{i+2}"];
+                    rng.Formula = $"=SUM(D{i+2}:AF{i+2})";
+                    rng.FormulaHidden = false;
+
+                }
+
+                //// Вычисляем сумму этих чисел
+                //Excel.Range rng = workSheet.Range["A2"];
+                //rng.Formula = "=SUM(A1:L1)";
+                //rng.FormulaHidden = false;
+
+                //// Выделяем границы у этой ячейки
+                //Excel.Borders border = rng.Borders;
+                //border.LineStyle = Excel.XlLineStyle.xlContinuous;
+
+                //// Строим круговую диаграмму
+                //Excel.ChartObjects chartObjs = (Excel.ChartObjects)workSheet.ChartObjects();
+                //Excel.ChartObject chartObj = chartObjs.Add(5, 50, 300, 300);
+                //Excel.Chart xlChart = chartObj.Chart;
+                //Excel.Range rng2 = workSheet.Range["A1:L1"];
+                //// Устанавливаем тип диаграммы
+                //xlChart.ChartType = Excel.XlChartType.xlPie;
+                //// Устанавливаем источник данных (значения от 1 до 10)
+                //xlChart.SetSourceData(rng2);
+
+                // Открываем созданный excel-файл
+                excelApp.Visible = true;
+                excelApp.UserControl = true;
+            });
         }
     }
 }
