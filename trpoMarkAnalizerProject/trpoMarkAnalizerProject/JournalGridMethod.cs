@@ -234,7 +234,30 @@ namespace trpoMarkAnalizerProject
 ", "Статистика");
         }
 
+        public List<Student> CreateCustomStudentArray(int idGroup, int dateRange)
+        {
+            List<Student> students = new List<Student>();
+            string query = $"Select * From Student Where idGroup = {idGroup}";
+            OleDbCommand command = new OleDbCommand(query, _connection);
+            var reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    int id = (int)reader["id"];
+                    string name = reader["lastName"].ToString() + reader["firstName"].ToString();
+                    Student tmp = new Student(id, name);
+                    students.Add(tmp);
+                }
+            }
 
+            for (int i = 0; i < students.Count; i++)
+            {
+                students[i].fillMarkMiss(dateTimePicker1.Value, -1, dateRange);
+            }
+            return students;
+          
+        }
 
     }
 }

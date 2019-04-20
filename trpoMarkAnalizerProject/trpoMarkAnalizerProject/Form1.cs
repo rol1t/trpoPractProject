@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
+using Word = Microsoft.Office.Interop.Word;
+
 
 namespace trpoMarkAnalizerProject
 {
@@ -704,7 +707,76 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void documentPage_Click(object sender, EventArgs e)
         {
+            var date = dateTimePicker1.Value;
+            Task.Run(() =>
+            {
+                // Создаём экземпляр нашего приложения
+                Excel.Application excelApp = new Excel.Application();
+                // Создаём экземпляр рабочий книги Excel
+                Excel.Workbook workBook;
+                // Создаём экземпляр листа Excel
+                Excel.Worksheet workSheet;
+                
+                workBook = excelApp.Workbooks.Add();
+                workSheet = (Excel.Worksheet)workBook.Worksheets.get_Item(1);
+                var students = CreateCustomStudentArray(1, 30);
+                workSheet.Cells[1, 1] = "Номер";
+                workSheet.Cells[1, 2] = "Имя";
+                workSheet.Columns[2].ColumnWidth = 30;
+                var dateList = new List<DateTime>();
+                for (int i = 3; i < 33; i++)
+                {
+                    workSheet.Cells[1, i] = date.Day;
+                    workSheet.Columns[i].ColumnWidth = 2;
+                    dateList.Add(date);
+                    date = date.AddDays(1);
+                }
 
+                for (int i = 0; i < students.Count; i++)
+                {
+                    var student = students[i];
+                    workSheet.Cells[i + 2, 1] = i + 1;
+                    workSheet.Cells[i + 2, 2] = student.Name;
+                    for (int j = 3; j < 33; j++)
+                    {
+                        var checkDate = from d in student.Misses
+                                        where d.date.Day == workSheet.Cells[1, j].Value
+                                        select d;
+                        if (checkDate.Count() != 0)
+                        {
+                            workSheet.Cells[i + 2, j] = checkDate.Count();
+                        }
+
+                    }
+                    var rng = workSheet.Range[$"AG{i+2}"];
+                    rng.Formula = $"=SUM(D{i+2}:AF{i+2})";
+                    rng.FormulaHidden = false;
+
+                }
+
+                //// Вычисляем сумму этих чисел
+                //Excel.Range rng = workSheet.Range["A2"];
+                //rng.Formula = "=SUM(A1:L1)";
+                //rng.FormulaHidden = false;
+
+                //// Выделяем границы у этой ячейки
+                //Excel.Borders border = rng.Borders;
+                //border.LineStyle = Excel.XlLineStyle.xlContinuous;
+
+                //// Строим круговую диаграмму
+                //Excel.ChartObjects chartObjs = (Excel.ChartObjects)workSheet.ChartObjects();
+                //Excel.ChartObject chartObj = chartObjs.Add(5, 50, 300, 300);
+                //Excel.Chart xlChart = chartObj.Chart;
+                //Excel.Range rng2 = workSheet.Range["A1:L1"];
+                //// Устанавливаем тип диаграммы
+                //xlChart.ChartType = Excel.XlChartType.xlPie;
+                //// Устанавливаем источник данных (значения от 1 до 10)
+                //xlChart.SetSourceData(rng2);
+
+                // Открываем созданный excel-файл
+                excelApp.Visible = true;
+                excelApp.UserControl = true;
+            });
         }
     }
 }
