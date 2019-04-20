@@ -24,6 +24,7 @@ namespace trpoMarkAnalizerProject
             TeacherShow();
             SubjectShow();
             StudentShow();
+            
             panel1.Visible = false;
             panel3.Visible = false;
             panel4.Visible = false;
@@ -36,6 +37,10 @@ namespace trpoMarkAnalizerProject
 
         private void InitPage()
         {
+            studentGrid.AllowUserToAddRows = false;
+            teacherGrid.AllowUserToAddRows = false;
+            subjectGrid.AllowUserToAddRows = false;
+            updateComboBox();
             ShowJournal();  
         }
 
@@ -211,11 +216,13 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void journalPage_Click(object sender, EventArgs e)
         {
+            currentPageInd.Location = journalPage.Location;
             Control.SelectedIndex = 0;
         }
 
         private void studentPage_Click(object sender, EventArgs e)
         {
+            currentPageInd.Location = studentPage.Location;
             Control.SelectedIndex = 1;
         }
 
@@ -241,7 +248,11 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void subjectBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (groupBox.DataSource != null && subjectBox.DataSource != null 
+                && groupBox.ValueMember != "" && subjectBox.ValueMember != "")
+            {
+                ShowJournal();
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -527,7 +538,8 @@ Data Source=Marks1.accdb;Persist Security Info=True");
             {
                 MessageBox.Show(a.Message);
             }
-}
+            updateComboBox();
+        }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -653,6 +665,46 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                 }
                 StudentShow();
             }
+        }
+
+        private void groupBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (groupBox.DataSource != null && subjectBox.DataSource != null
+                && groupBox.ValueMember != "" && subjectBox.ValueMember != "")
+            {
+                ShowJournal();
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (groupBox.DataSource != null && subjectBox.DataSource != null
+                && groupBox.ValueMember != "" && subjectBox.ValueMember != "")
+            {
+                ShowJournal();
+            }
+        }
+
+        private void subjectPage_Click(object sender, EventArgs e)
+        {
+            currentPageInd.Location = subjectPage.Location;
+            Control.SelectedIndex = 2;
+        }
+
+        private void teacherPage_Click(object sender, EventArgs e)
+        {
+            currentPageInd.Location = teacherPage.Location;
+            Control.SelectedIndex = 3;
+        }
+
+        private void dateTimePicker1_ValueChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void documentPage_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
