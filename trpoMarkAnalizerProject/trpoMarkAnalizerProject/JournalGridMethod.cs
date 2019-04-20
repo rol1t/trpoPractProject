@@ -15,22 +15,6 @@ namespace trpoMarkAnalizerProject
     {
         private void ShowJournal()
         {
-            //init group combobox
-            var adapter = new OleDbDataAdapter("SELECT Group.id, Group.nameGroup FROM[Group]; ", _connection);
-            var table = new DataTable();
-            adapter.Fill(table);
-            groupBox.ValueMember = "id";
-            groupBox.DisplayMember = "nameGroup";
-            groupBox.DataSource = table;
-
-            //init subjectBox
-            adapter.SelectCommand.CommandText = "Select * From Subject";
-            var tableSub = new DataTable();
-            adapter.Fill(tableSub);
-
-            subjectBox.DisplayMember = "nameSub";
-            subjectBox.DataSource = tableSub;
-            subjectBox.ValueMember = "id";
 
             //инициализация студентов
             InitStudents();
@@ -81,6 +65,26 @@ namespace trpoMarkAnalizerProject
                 }
                 journalGrid.Rows.Add(row);
             }
+        }
+
+        private void updateComboBox()
+        {
+            //init group combobox
+            var adapter = new OleDbDataAdapter("SELECT Group.id, Group.nameGroup FROM[Group]; ", _connection);
+            var table = new DataTable();
+            adapter.Fill(table);
+            groupBox.ValueMember = "id";
+            groupBox.DisplayMember = "nameGroup";
+            groupBox.DataSource = table;
+
+            //init subjectBox
+            adapter.SelectCommand.CommandText = "Select * From Subject";
+            var tableSub = new DataTable();
+            adapter.Fill(tableSub);
+
+            subjectBox.DisplayMember = "nameSub";
+            subjectBox.DataSource = tableSub;
+            subjectBox.ValueMember = "id";
         }
 
         private void InitStudents()
