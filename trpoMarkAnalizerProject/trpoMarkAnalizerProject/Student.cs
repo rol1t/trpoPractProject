@@ -73,7 +73,7 @@ From Marks Inner Join Student On Student.id = Marks.idStudent
 Where dateMark >= @dateFrom
 And dateMark <= @dateTo And Student.id = {Id}";
             }
-            var commandMark = new OleDbCommand(query, Form1._connection);
+            var commandMark = new OleDbCommand(query, MainForm._connection);
             var paramDateFrom = new OleDbParameter("@dateFrom", date.ToShortDateString()) ;
             var paramDateTo = new OleDbParameter("@dateTo", date.AddDays(dateRange).ToShortDateString());
             commandMark.Parameters.Add(paramDateFrom);
@@ -107,7 +107,7 @@ From SkipLesson Inner Join Student On Student.id = SkipLesson.idStudent
 Where dateSkip >= @dateFrom
 And dateSkip <= @dateTo And Student.id = {Id}";
             }
-            var commandMiss = new OleDbCommand(query, Form1._connection);
+            var commandMiss = new OleDbCommand(query, MainForm._connection);
             var paramFrom = new OleDbParameter();
             var paramTo = new OleDbParameter();
             commandMiss.Parameters.Add(paramDateFrom);

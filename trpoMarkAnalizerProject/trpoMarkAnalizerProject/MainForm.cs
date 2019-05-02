@@ -14,12 +14,12 @@ using Word = Microsoft.Office.Interop.Word;
 
 namespace trpoMarkAnalizerProject
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         static public OleDbConnection _connection;
         private List<Student> _students;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             InitDB();
@@ -188,14 +188,6 @@ namespace trpoMarkAnalizerProject
 
         }
 
-        private void showJournal()
-        {
-            List<Student> students = new List<Student>();
-            string query = @"Select  
-From Mark Inner Join Student On Student.id = Mark.idStudent";
-
-        }
-
         private void InitDB()
         {
             _connection = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;
@@ -274,25 +266,17 @@ Data Source=Marks1.accdb;Persist Security Info=True");
         private void button8_Click(object sender, EventArgs e)
         {
             SearchInGrid(teacherGrid, textBox2.Text);
-            //for (int i = 0; i < teacherGrid.RowCount; i++)
-            //{
-            //    teacherGrid.Rows[i].Selected = false;
-            //    for (int j = 1; j < teacherGrid.ColumnCount; j++)
-            //        if (teacherGrid.Rows[i].Cells[j].Value != null)
-            //            if (teacherGrid.Rows[i].Cells[j].Value.ToString().Contains(textBox2.Text))
-            //            {
-            //                teacherGrid.Rows[i].Selected = true;
-            //                break;
-            //            }
-            //}
         }
 
         public void SearchInGrid(DataGridView grid, string value)
         {
             var selectedRows = grid.SelectedRows;
-            for (int i = 0; i < grid.SelectedRows.Count; i++)
+            for (int i = 0; i < grid.Rows.Count; i++)
             {
-                selectedRows[i].Selected = false;
+                for (int j = 0; j < grid.Columns.Count; j++)
+                {
+                    grid[j, i].Selected = false;
+                }
             }
             if (value != "")
             {
@@ -309,14 +293,6 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                             }
                         }
                     }
-                }
-            }
-            else
-            {
-                selectedRows = grid.SelectedRows;
-                for (int i = 0; i < grid.SelectedRows.Count; i++)
-                {
-                    selectedRows[i].Selected = false;
                 }
             }
         }
@@ -556,7 +532,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (int i = 0; i < studentGrid.Rows.Count - 1; i++)
+            for (int i = 0; i < studentGrid.Rows.Count; i++)
                 studentGrid.Rows[i].Visible = studentGrid[1, i].Value.ToString() == comboBox1.Text;
             if (comboBox1.Text == "")
             {
@@ -708,75 +684,9 @@ Data Source=Marks1.accdb;Persist Security Info=True");
         private void documentPage_Click(object sender, EventArgs e)
         {
             var date = dateTimePicker1.Value;
-            Task.Run(() =>
-            {
-                // Создаём экземпляр нашего приложения
-                Excel.Application excelApp = new Excel.Application();
-                // Создаём экземпляр рабочий книги Excel
-                Excel.Workbook workBook;
-                // Создаём экземпляр листа Excel
-                Excel.Worksheet workSheet;
-                
-                workBook = excelApp.Workbooks.Add();
-                workSheet = (Excel.Worksheet)workBook.Worksheets.get_Item(1);
-                var students = CreateCustomStudentArray(1, 30);
-                workSheet.Cells[1, 1] = "Номер";
-                workSheet.Cells[1, 2] = "Имя";
-                workSheet.Columns[2].ColumnWidth = 30;
-                var dateList = new List<DateTime>();
-                for (int i = 3; i < 33; i++)
-                {
-                    workSheet.Cells[1, i] = date.Day;
-                    workSheet.Columns[i].ColumnWidth = 2;
-                    dateList.Add(date);
-                    date = date.AddDays(1);
-                }
-
-                for (int i = 0; i < students.Count; i++)
-                {
-                    var student = students[i];
-                    workSheet.Cells[i + 2, 1] = i + 1;
-                    workSheet.Cells[i + 2, 2] = student.Name;
-                    for (int j = 3; j < 33; j++)
-                    {
-                        var checkDate = from d in student.Misses
-                                        where d.date.Day == workSheet.Cells[1, j].Value
-                                        select d;
-                        if (checkDate.Count() != 0)
-                        {
-                            workSheet.Cells[i + 2, j] = checkDate.Count();
-                        }
-
-                    }
-                    var rng = workSheet.Range[$"AG{i+2}"];
-                    rng.Formula = $"=SUM(D{i+2}:AF{i+2})";
-                    rng.FormulaHidden = false;
-
-                }
-
-                //// Вычисляем сумму этих чисел
-                //Excel.Range rng = workSheet.Range["A2"];
-                //rng.Formula = "=SUM(A1:L1)";
-                //rng.FormulaHidden = false;
-
-                //// Выделяем границы у этой ячейки
-                //Excel.Borders border = rng.Borders;
-                //border.LineStyle = Excel.XlLineStyle.xlContinuous;
-
-                //// Строим круговую диаграмму
-                //Excel.ChartObjects chartObjs = (Excel.ChartObjects)workSheet.ChartObjects();
-                //Excel.ChartObject chartObj = chartObjs.Add(5, 50, 300, 300);
-                //Excel.Chart xlChart = chartObj.Chart;
-                //Excel.Range rng2 = workSheet.Range["A1:L1"];
-                //// Устанавливаем тип диаграммы
-                //xlChart.ChartType = Excel.XlChartType.xlPie;
-                //// Устанавливаем источник данных (значения от 1 до 10)
-                //xlChart.SetSourceData(rng2);
-
-                // Открываем созданный excel-файл
-                excelApp.Visible = true;
-                excelApp.UserControl = true;
-            });
+            DocForm form = new DocForm(_connection);
+            form.ShowDialog();
+           
         }
     }
 }

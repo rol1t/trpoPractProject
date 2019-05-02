@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace trpoMarkAnalizerProject
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private void ShowJournal()
         {
@@ -234,7 +229,7 @@ namespace trpoMarkAnalizerProject
 ", "Статистика");
         }
 
-        public List<Student> CreateCustomStudentArray(int idGroup, int dateRange)
+        public static List<Student> CreateCustomStudentArray(int idGroup, DateTime dateTime, int dateRange)
         {
             List<Student> students = new List<Student>();
             string query = $"Select * From Student Where idGroup = {idGroup}";
@@ -253,10 +248,10 @@ namespace trpoMarkAnalizerProject
 
             for (int i = 0; i < students.Count; i++)
             {
-                students[i].fillMarkMiss(dateTimePicker1.Value, -1, dateRange);
+                students[i].fillMarkMiss(dateTime, -1, dateRange);
             }
             return students;
-          
+
         }
 
     }
