@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
-using Word = Microsoft.Office.Interop.Word;
 
 namespace trpoMarkAnalizerProject
 {
@@ -21,7 +17,7 @@ namespace trpoMarkAnalizerProject
             InitializeComponent();
             _con = connection;
             InitCBox();
-            
+
         }
 
         private void InitCBox()
@@ -42,7 +38,7 @@ namespace trpoMarkAnalizerProject
         private void Button2_Click(object sender, EventArgs e)
         {
             var date = dateTimePicker.Value;
-            int idGroup =  (int)comboBox1.SelectedValue;
+            int idGroup = (int)comboBox1.SelectedValue;
             if (radioButton2.Checked == true)
             {
                 Task.Run(() =>
@@ -91,17 +87,99 @@ namespace trpoMarkAnalizerProject
                         rng.FormulaHidden = false;
 
                     }
+                    workSheet.Range[$"AF{students.Count + 2}"].Value = "Итого";
+                    var rngSum = workSheet.Range[$"AG{students.Count + 2}"];
+                    rngSum.Formula = $"=SUM(AG2:AG{students.Count + 1})";
+                    rngSum.FormulaHidden = false;
                     excelApp.Visible = true;
                     excelApp.UserControl = true;
                 });
             }
-            
+
 
         }
 
         private void AvrgMarkBtn_Click(object sender, EventArgs e)
         {
+            var date = dateTimePicker.Value;
+            int idGroup = (int)comboBox1.SelectedValue;
+            if (radioButton2.Checked == true)
+            {
+                Task.Run(() =>
+                {
+                    // Создаём экземпляр нашего приложения
+                    Excel.Application excelApp = new Excel.Application();
+                    // Создаём экземпляр рабочий книги Excel
+                    Excel.Workbook workBook;
+                    // Создаём экземпляр листа Excel
+                    Excel.Worksheet workSheet;
 
+                    workBook = excelApp.Workbooks.Add();
+                    workSheet = (Excel.Worksheet)workBook.Worksheets.get_Item(1);
+                    var students = MainForm.CreateCustomStudentArray(idGroup, date, 30);
+                    string query = $@"SELECT Distinct  Subject.id, nameSub
+FROM  ((Subject LEFT JOIN Marks ON Subject.id = Marks.idSub)
+Left Join Student On Student.id = Marks.idStudent)
+Left Join [Group] On Group.id = Student.IdGroup
+Where Group.id = {idGroup} 
+;
+";
+                    //workSheet.Range["A1:NZ1"].Style.Alignment.TextRotation = 90;
+                    var command = new OleDbCommand(query, _con);
+                    var reader = command.ExecuteReader();
+                    Dictionary<int, string> subjectList = new Dictionary<int, string>(); ;
+                    while (reader.Read())
+                    {
+                        subjectList.Add(reader.GetInt32(0), reader.GetString(1));
+                    }
+                    workSheet.Cells[1, 1] = "Номер";
+                    workSheet.Cells[1, 2] = "Имя";
+                    workSheet.Columns[2].ColumnWidth = 30;
+
+                    var valuesSub = subjectList.Values;
+                    int index = 3;
+                    foreach (var item in subjectList)
+                    {
+                        workSheet.Cells[1, index] = item.Value;
+                        workSheet.Columns[index++].ColumnWidth = 15;
+                    }
+                    if (subjectList.Count != 0)
+                    {
+
+
+                        for (int i = 0; i < students.Count; i++)
+                        {
+                            var student = students[i];
+                            workSheet.Cells[i + 2, 1] = i + 1;
+                            workSheet.Cells[i + 2, 2] = student.Name;
+                            int j = 3;
+                            foreach (var item in subjectList)
+                            {
+                                var checkDate = (from d in student.Marks
+                                                 where d.IdSub == item.Key
+                                                 select d.Value);
+                                double avrg = checkDate.Count() > 0 ? checkDate.Average() : 0;
+                                workSheet.Cells[i + 2, j++] = avrg;
+
+                            }
+
+
+
+                            var rng = workSheet.Range[$"AG{i + 2}"];
+                            rng.Formula = $"=SUM(D{i + 2}:AF{i + 2})";
+                            rng.FormulaHidden = false;
+
+                        }
+                    }
+                    workSheet.Range[$"AF{students.Count + 2}"].Value = "Итого";
+                    var rngSum = workSheet.Range[$"AG{students.Count + 2}"];
+                    rngSum.Formula = $"=SUM(AG2:AG{students.Count + 1})";
+                    rngSum.FormulaHidden = false;
+                    excelApp.Visible = true;
+                    excelApp.UserControl = true;
+
+                });
+            }
         }
 
         private void DocForm_Load(object sender, EventArgs e)
