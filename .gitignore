@@ -10,3 +10,5 @@
 *.laccdb
 *.exe
 /trpoMarkAnalizerProject/trpoMarkAnalizerProject/bin/Debug
+/trpoMarkAnalizerProject/.vs/trpoMarkAnalizerProject/v16/Server/sqlite3
+/trpoMarkAnalizerProject/.vs/trpoMarkAnalizerProject/v16/.suo
