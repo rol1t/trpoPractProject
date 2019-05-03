@@ -688,5 +688,18 @@ Data Source=Marks1.accdb;Persist Security Info=True");
             form.ShowDialog();
            
         }
+
+        bool CheckKey(KeyPressEventArgs e)
+        {
+            return Char.IsDigit(e.KeyChar) && Char.IsDigit(e.KeyChar);
+        }
+
+        private void TextBox9_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!CheckKey(e))
+            {
+                return;
+            }
+        }
     }
 }

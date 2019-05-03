@@ -33,10 +33,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.missBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.groupBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.wordRb = new System.Windows.Forms.RadioButton();
+            this.excelRb = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // dateTimePicker
@@ -86,13 +86,13 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "*Ведомости составляются от даты начала периода + 30 дней после этого";
             // 
-            // comboBox1
+            // groupBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(169, 35);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(95, 21);
-            this.comboBox1.TabIndex = 5;
+            this.groupBox.FormattingEnabled = true;
+            this.groupBox.Location = new System.Drawing.Point(169, 35);
+            this.groupBox.Name = "groupBox";
+            this.groupBox.Size = new System.Drawing.Size(95, 21);
+            this.groupBox.TabIndex = 5;
             // 
             // label3
             // 
@@ -103,38 +103,38 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Группа";
             // 
-            // radioButton1
+            // wordRb
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(15, 105);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(51, 17);
-            this.radioButton1.TabIndex = 7;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Word";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.RadioButton1_CheckedChanged);
+            this.wordRb.AutoSize = true;
+            this.wordRb.Location = new System.Drawing.Point(15, 105);
+            this.wordRb.Name = "wordRb";
+            this.wordRb.Size = new System.Drawing.Size(51, 17);
+            this.wordRb.TabIndex = 7;
+            this.wordRb.TabStop = true;
+            this.wordRb.Text = "Word";
+            this.wordRb.UseVisualStyleBackColor = true;
+            this.wordRb.CheckedChanged += new System.EventHandler(this.RadioButton1_CheckedChanged);
             // 
-            // radioButton2
+            // excelRb
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(15, 129);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(51, 17);
-            this.radioButton2.TabIndex = 8;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Excel";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.excelRb.AutoSize = true;
+            this.excelRb.Location = new System.Drawing.Point(15, 129);
+            this.excelRb.Name = "excelRb";
+            this.excelRb.Size = new System.Drawing.Size(51, 17);
+            this.excelRb.TabIndex = 8;
+            this.excelRb.TabStop = true;
+            this.excelRb.Text = "Excel";
+            this.excelRb.UseVisualStyleBackColor = true;
             // 
             // DocForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(278, 157);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.excelRb);
+            this.Controls.Add(this.wordRb);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.groupBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.missBtn);
             this.Controls.Add(this.label1);
@@ -156,9 +156,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button missBtn;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox groupBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton wordRb;
+        private System.Windows.Forms.RadioButton excelRb;
     }
 }

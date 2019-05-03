@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using Word = Microsoft.Office.Interop.Word;
+
 
 namespace trpoMarkAnalizerProject
 {
@@ -25,9 +27,9 @@ namespace trpoMarkAnalizerProject
             OleDbDataAdapter adapter = new OleDbDataAdapter("Select * From [Group]", _con);
             DataTable table = new DataTable();
             adapter.Fill(table);
-            comboBox1.ValueMember = "id";
-            comboBox1.DisplayMember = "nameGroup";
-            comboBox1.DataSource = table;
+            groupBox.ValueMember = "id";
+            groupBox.DisplayMember = "nameGroup";
+            groupBox.DataSource = table;
         }
 
         private void Label1_Click(object sender, EventArgs e)
@@ -38,8 +40,8 @@ namespace trpoMarkAnalizerProject
         private void Button2_Click(object sender, EventArgs e)
         {
             var date = dateTimePicker.Value;
-            int idGroup = (int)comboBox1.SelectedValue;
-            if (radioButton2.Checked == true)
+            int idGroup = (int)groupBox.SelectedValue;
+            if (excelRb.Checked == true)
             {
                 Task.Run(() =>
                 {
@@ -94,6 +96,7 @@ namespace trpoMarkAnalizerProject
                     excelApp.Visible = true;
                     excelApp.UserControl = true;
                 });
+                Close();
             }
 
 
@@ -102,8 +105,76 @@ namespace trpoMarkAnalizerProject
         private void AvrgMarkBtn_Click(object sender, EventArgs e)
         {
             var date = dateTimePicker.Value;
-            int idGroup = (int)comboBox1.SelectedValue;
-            if (radioButton2.Checked == true)
+            int idGroup = (int)groupBox.SelectedValue;
+            if (wordRb.Checked)
+            {
+                string groupName = groupBox.SelectedText;
+                Task.Run(() =>
+                {
+                    Word.Application application = new Word.Application();
+                    Object missing = Type.Missing;
+                    application.Documents.Add(ref missing, ref missing, ref missing, ref missing);
+                    Word.Document document = application.ActiveDocument;
+                    string T = "Затраты на производство продукции '";
+                    //T += dataGridView4[0, int.Parse(dataGridView4.SelectedRows[0].Index.ToString())].Value.ToString() + "'";
+
+                    var students = MainForm.CreateCustomStudentArray(idGroup, date, 30);
+                    string query = $@"SELECT Distinct  Subject.id, nameSub
+FROM  ((Subject LEFT JOIN Marks ON Subject.id = Marks.idSub)
+Left Join Student On Student.id = Marks.idStudent)
+Left Join [Group] On Group.id = Student.IdGroup
+Where Group.id = {idGroup} 
+;
+";
+                    //workSheet.Range["A1:NZ1"].Style.Alignment.TextRotation = 90;
+                    var command = new OleDbCommand(query, _con);
+                    var reader = command.ExecuteReader();
+                    Dictionary<int, string> subjectList = new Dictionary<int, string>(); ;
+                    while (reader.Read())
+                    {
+                        subjectList.Add(reader.GetInt32(0), reader.GetString(1));
+                    }
+
+                    var valuesSub = subjectList.Values;
+                    string[,] array = new string[students.Count + 1, subjectList.Count + 2];
+
+                    array[0, 0] = "Номер"; array[0, 1] = "Имя";
+                    int index = 2;
+                    foreach (var item in subjectList)
+                    {
+                        array[0, index++] = item.Value;
+                    }
+                    for (int i = 0; i < students.Count; i++)
+                    {
+                        var student = students[i];
+                        array[i + 1, 0] = (i + 1).ToString();
+                        array[i + 1,  1] = student.Name;
+                        int j = 2;
+                        foreach (var item in subjectList)
+                        {
+                            var checkDate = (from d in student.Marks
+                                             where d.IdSub == item.Key
+                                             select d.Value);
+                            double avrg = checkDate.Count() > 0 ? checkDate.Average() : 0;
+                            array[i + 1, j++] = avrg.ToString();
+
+                        }
+
+                    }
+                    document.Paragraphs[1].Range.Text = $"Средний балл группы {groupName}";
+                    document.Paragraphs.Add();
+                    Word.Range range = application.Selection.Range;
+                    Object behiavor = Word.WdDefaultTableBehavior.wdWord9TableBehavior;
+                    Object autoFitBehiavor = Word.WdAutoFitBehavior.wdAutoFitFixed;
+                    document.Tables.Add(document.Paragraphs[2].Range, array.GetLength(0), array.GetLength(1), ref behiavor, ref autoFitBehiavor);
+                    for (int i = 0; i < array.GetLength(0); i++)
+                        for (int j = 0; j < array.GetLength(1); j++)
+                            document.Tables[1].Cell(i + 1, j + 1).Range.Text = array[i, j] == null? "0": array[i, j].ToString();
+                    application.Visible = true;
+                });
+                Close();
+            }
+            if (excelRb.Checked == true)
             {
                 Task.Run(() =>
                 {
@@ -179,6 +250,7 @@ Where Group.id = {idGroup}
                     excelApp.UserControl = true;
 
                 });
+                Close();
             }
         }
 
