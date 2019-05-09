@@ -56,6 +56,7 @@ namespace trpoMarkAnalizerProject
             comboBox1.DataSource = ds;
             comboBox1.DisplayMember = "nameGroup";
             comboBox1.ValueMember = "id";
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.SelectedIndex = -1;
         }
 
@@ -197,6 +198,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -689,17 +691,90 @@ Data Source=Marks1.accdb;Persist Security Info=True");
            
         }
 
-        bool CheckKey(KeyPressEventArgs e)
-        {
-            return Char.IsDigit(e.KeyChar) && Char.IsDigit(e.KeyChar);
-        }
-
         private void TextBox9_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!CheckKey(e))
-            {
+            if (Char.IsLetter(e.KeyChar) || Char.IsWhiteSpace(e.KeyChar))
                 return;
-            }
+            else
+                e.Handled = true;
+        }
+
+        private void CloseAddStudentPanelBtn_Click(object sender, EventArgs e)
+        {
+            panel4.Visible = false;
+        }
+
+        private void CloseAddSubjectPanelBtn_Click(object sender, EventArgs e)
+        {
+            panel3.Visible = false;
+        }
+
+        private void CloseAddTeacherPanelBtn_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = false;
+        }
+
+        private void LastName_textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsLetter(e.KeyChar) || Char.IsWhiteSpace(e.KeyChar))
+                return;
+            else
+                e.Handled = true;
+        }
+
+        private void FirstName_textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsLetter(e.KeyChar) || Char.IsWhiteSpace(e.KeyChar))
+                return;
+            else
+                e.Handled = true;
+        }
+
+        private void SureName_textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsLetter(e.KeyChar) || Char.IsWhiteSpace(e.KeyChar))
+                return;
+            else
+                e.Handled = true;
+        }
+
+        private void DateBirth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void Aducation_comboBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void Adress_textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void TextBox10_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsLetter(e.KeyChar) || Char.IsWhiteSpace(e.KeyChar))
+                return;
+            else
+                e.Handled = true;
+        }
+
+        private void TextBox8_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsLetter(e.KeyChar) || Char.IsWhiteSpace(e.KeyChar))
+                return;
+            else
+                e.Handled = true;
+        }
+
+        private void ComboBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsLetter(e.KeyChar) || Char.IsWhiteSpace(e.KeyChar))
+                return;
+            else
+                e.Handled = true;
         }
     }
 }

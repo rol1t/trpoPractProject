@@ -88,6 +88,7 @@
             // 
             // groupBox
             // 
+            this.groupBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.groupBox.FormattingEnabled = true;
             this.groupBox.Location = new System.Drawing.Point(169, 35);
             this.groupBox.Name = "groupBox";

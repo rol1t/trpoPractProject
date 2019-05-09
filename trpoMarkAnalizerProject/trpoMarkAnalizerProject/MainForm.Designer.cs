@@ -52,6 +52,7 @@
             this.label28 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.closeAddStudentPanelBtn = new System.Windows.Forms.Button();
             this.groupStudentBox = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
             this.maskedTextBox4 = new System.Windows.Forms.MaskedTextBox();
@@ -83,6 +84,7 @@
             this.label27 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.closeAddSubjectPanelBtn = new System.Windows.Forms.Button();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -99,6 +101,7 @@
             this.teacherControl = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.closeAddTeacherPanelBtn = new System.Windows.Forms.Button();
             this.dateBirth = new System.Windows.Forms.MaskedTextBox();
             this.phoneNumber = new System.Windows.Forms.MaskedTextBox();
             this.aducation_comboBox2 = new System.Windows.Forms.ComboBox();
@@ -290,6 +293,7 @@
             // 
             // groupBox
             // 
+            this.groupBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.groupBox.FormattingEnabled = true;
             this.groupBox.Location = new System.Drawing.Point(139, 35);
             this.groupBox.Name = "groupBox";
@@ -299,6 +303,7 @@
             // 
             // subjectBox
             // 
+            this.subjectBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.subjectBox.FormattingEnabled = true;
             this.subjectBox.Location = new System.Drawing.Point(12, 35);
             this.subjectBox.Name = "subjectBox";
@@ -343,12 +348,14 @@
             this.idStudentClmn.Name = "idStudentClmn";
             this.idStudentClmn.ReadOnly = true;
             this.idStudentClmn.Visible = false;
+            this.idStudentClmn.Width = 125;
             // 
             // fullNameStudentClmn
             // 
             this.fullNameStudentClmn.HeaderText = "Имя";
             this.fullNameStudentClmn.Name = "fullNameStudentClmn";
             this.fullNameStudentClmn.ReadOnly = true;
+            this.fullNameStudentClmn.Width = 130;
             // 
             // studentControl
             // 
@@ -404,6 +411,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel4.Controls.Add(this.closeAddStudentPanelBtn);
             this.panel4.Controls.Add(this.groupStudentBox);
             this.panel4.Controls.Add(this.label22);
             this.panel4.Controls.Add(this.maskedTextBox4);
@@ -424,8 +432,21 @@
             this.panel4.Size = new System.Drawing.Size(279, 263);
             this.panel4.TabIndex = 17;
             // 
+            // closeAddStudentPanelBtn
+            // 
+            this.closeAddStudentPanelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.closeAddStudentPanelBtn.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.closeAddStudentPanelBtn.Location = new System.Drawing.Point(254, 3);
+            this.closeAddStudentPanelBtn.Name = "closeAddStudentPanelBtn";
+            this.closeAddStudentPanelBtn.Size = new System.Drawing.Size(22, 22);
+            this.closeAddStudentPanelBtn.TabIndex = 20;
+            this.closeAddStudentPanelBtn.Text = "X";
+            this.closeAddStudentPanelBtn.UseVisualStyleBackColor = true;
+            this.closeAddStudentPanelBtn.Click += new System.EventHandler(this.CloseAddStudentPanelBtn_Click);
+            // 
             // groupStudentBox
             // 
+            this.groupStudentBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.groupStudentBox.FormattingEnabled = true;
             this.groupStudentBox.Location = new System.Drawing.Point(131, 68);
             this.groupStudentBox.Margin = new System.Windows.Forms.Padding(2);
@@ -456,6 +477,8 @@
             // 
             // button12
             // 
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button12.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.button12.Location = new System.Drawing.Point(85, 223);
             this.button12.Margin = new System.Windows.Forms.Padding(2);
             this.button12.Name = "button12";
@@ -480,6 +503,7 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(114, 20);
             this.textBox8.TabIndex = 10;
+            this.textBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox8_KeyPress);
             // 
             // textBox9
             // 
@@ -497,6 +521,7 @@
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(114, 20);
             this.textBox10.TabIndex = 8;
+            this.textBox10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox10_KeyPress);
             // 
             // label19
             // 
@@ -606,6 +631,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(117, 31);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
@@ -731,6 +757,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel3.Controls.Add(this.closeAddSubjectPanelBtn);
             this.panel3.Controls.Add(this.comboBox4);
             this.panel3.Controls.Add(this.label12);
             this.panel3.Controls.Add(this.comboBox2);
@@ -743,8 +770,21 @@
             this.panel3.Size = new System.Drawing.Size(279, 263);
             this.panel3.TabIndex = 16;
             // 
+            // closeAddSubjectPanelBtn
+            // 
+            this.closeAddSubjectPanelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.closeAddSubjectPanelBtn.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.closeAddSubjectPanelBtn.Location = new System.Drawing.Point(254, 3);
+            this.closeAddSubjectPanelBtn.Name = "closeAddSubjectPanelBtn";
+            this.closeAddSubjectPanelBtn.Size = new System.Drawing.Size(22, 22);
+            this.closeAddSubjectPanelBtn.TabIndex = 21;
+            this.closeAddSubjectPanelBtn.Text = "X";
+            this.closeAddSubjectPanelBtn.UseVisualStyleBackColor = true;
+            this.closeAddSubjectPanelBtn.Click += new System.EventHandler(this.CloseAddSubjectPanelBtn_Click);
+            // 
             // comboBox4
             // 
+            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox4.FormattingEnabled = true;
             this.comboBox4.Items.AddRange(new object[] {
             "Высшее",
@@ -781,9 +821,12 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(134, 21);
             this.comboBox2.TabIndex = 16;
+            this.comboBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ComboBox2_KeyPress);
             // 
             // button8
             // 
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button8.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.button8.Location = new System.Drawing.Point(85, 223);
             this.button8.Margin = new System.Windows.Forms.Padding(2);
             this.button8.Name = "button8";
@@ -919,6 +962,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel1.Controls.Add(this.closeAddTeacherPanelBtn);
             this.panel1.Controls.Add(this.dateBirth);
             this.panel1.Controls.Add(this.phoneNumber);
             this.panel1.Controls.Add(this.aducation_comboBox2);
@@ -942,6 +986,18 @@
             this.panel1.TabIndex = 15;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint_1);
             // 
+            // closeAddTeacherPanelBtn
+            // 
+            this.closeAddTeacherPanelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.closeAddTeacherPanelBtn.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.closeAddTeacherPanelBtn.Location = new System.Drawing.Point(254, 3);
+            this.closeAddTeacherPanelBtn.Name = "closeAddTeacherPanelBtn";
+            this.closeAddTeacherPanelBtn.Size = new System.Drawing.Size(22, 22);
+            this.closeAddTeacherPanelBtn.TabIndex = 21;
+            this.closeAddTeacherPanelBtn.Text = "X";
+            this.closeAddTeacherPanelBtn.UseVisualStyleBackColor = true;
+            this.closeAddTeacherPanelBtn.Click += new System.EventHandler(this.CloseAddTeacherPanelBtn_Click);
+            // 
             // dateBirth
             // 
             this.dateBirth.Location = new System.Drawing.Point(131, 121);
@@ -950,6 +1006,7 @@
             this.dateBirth.Name = "dateBirth";
             this.dateBirth.Size = new System.Drawing.Size(114, 20);
             this.dateBirth.TabIndex = 18;
+            this.dateBirth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DateBirth_KeyPress);
             // 
             // phoneNumber
             // 
@@ -962,6 +1019,7 @@
             // 
             // aducation_comboBox2
             // 
+            this.aducation_comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.aducation_comboBox2.FormattingEnabled = true;
             this.aducation_comboBox2.Items.AddRange(new object[] {
             "Высшее",
@@ -972,9 +1030,12 @@
             this.aducation_comboBox2.Name = "aducation_comboBox2";
             this.aducation_comboBox2.Size = new System.Drawing.Size(114, 21);
             this.aducation_comboBox2.TabIndex = 16;
+            this.aducation_comboBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Aducation_comboBox2_KeyPress);
             // 
             // Save_button12
             // 
+            this.Save_button12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Save_button12.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.Save_button12.Location = new System.Drawing.Point(85, 223);
             this.Save_button12.Margin = new System.Windows.Forms.Padding(2);
             this.Save_button12.Name = "Save_button12";
@@ -991,6 +1052,7 @@
             this.adress_textBox3.Name = "adress_textBox3";
             this.adress_textBox3.Size = new System.Drawing.Size(114, 20);
             this.adress_textBox3.TabIndex = 13;
+            this.adress_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Adress_textBox3_KeyPress);
             // 
             // sureName_textBox3
             // 
@@ -999,6 +1061,7 @@
             this.sureName_textBox3.Name = "sureName_textBox3";
             this.sureName_textBox3.Size = new System.Drawing.Size(114, 20);
             this.sureName_textBox3.TabIndex = 10;
+            this.sureName_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SureName_textBox3_KeyPress);
             // 
             // lastName_textBox3
             // 
@@ -1007,6 +1070,7 @@
             this.lastName_textBox3.Name = "lastName_textBox3";
             this.lastName_textBox3.Size = new System.Drawing.Size(114, 20);
             this.lastName_textBox3.TabIndex = 9;
+            this.lastName_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.LastName_textBox3_KeyPress);
             // 
             // firstName_textBox3
             // 
@@ -1015,6 +1079,7 @@
             this.firstName_textBox3.Name = "firstName_textBox3";
             this.firstName_textBox3.Size = new System.Drawing.Size(114, 20);
             this.firstName_textBox3.TabIndex = 8;
+            this.firstName_textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FirstName_textBox3_KeyPress);
             // 
             // Add_label
             // 
@@ -1371,6 +1436,9 @@
         private System.Windows.Forms.DataGridView journalGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn idStudentClmn;
         private System.Windows.Forms.DataGridViewTextBoxColumn fullNameStudentClmn;
+        private System.Windows.Forms.Button closeAddStudentPanelBtn;
+        private System.Windows.Forms.Button closeAddSubjectPanelBtn;
+        private System.Windows.Forms.Button closeAddTeacherPanelBtn;
     }
 }
 

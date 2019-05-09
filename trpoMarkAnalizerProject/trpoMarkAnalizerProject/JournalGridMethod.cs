@@ -13,7 +13,7 @@ namespace trpoMarkAnalizerProject
 
             //инициализация студентов
             InitStudents();
-
+            journalGrid.AllowUserToAddRows = true;
             journalGrid.ColumnCount = 2;
             journalGrid.RowCount = 1;
             journalGrid.RowHeadersVisible = false;
@@ -60,6 +60,7 @@ namespace trpoMarkAnalizerProject
                 }
                 journalGrid.Rows.Add(row);
             }
+            journalGrid.AllowUserToAddRows = false;
         }
 
         private void updateComboBox()
@@ -93,7 +94,7 @@ namespace trpoMarkAnalizerProject
                 while (reader.Read())
                 {
                     int id = (int)reader["id"];
-                    string name = reader["lastName"].ToString() + reader["firstName"].ToString();
+                    string name = reader["lastName"].ToString() + " " + reader["firstName"].ToString();
                     Student tmp = new Student(id, name);
                     students.Add(tmp);
                 }
