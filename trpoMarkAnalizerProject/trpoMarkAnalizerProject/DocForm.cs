@@ -98,6 +98,68 @@ namespace trpoMarkAnalizerProject
                 });
                 Close();
             }
+            if (wordRb.Checked)
+            {
+                string groupName = groupBox.Text;
+                Task.Run(() =>
+                {
+                    Word.Application application = new Word.Application();
+                    Object missing = Type.Missing;
+                    application.Documents.Add(ref missing, ref missing, ref missing, ref missing);
+                    Word.Document document = application.ActiveDocument;
+
+                    var students = MainForm.CreateCustomStudentArray(idGroup, date, 30);
+                    string[,] array = new string[students.Count + 1, 32];
+                    Dictionary<int, string> subjectList = new Dictionary<int, string>();
+                    var dateList = new List<DateTime>();
+
+                    array[0, 0] = "Номер";
+                    array[0, 1] = "Имя";
+
+                    for (int i = 2; i < 32; i++)
+                    {
+                        array[0, i] = date.Day.ToString();
+                        dateList.Add(date);
+                        date = date.AddDays(1);
+                    }
+
+                    for (int i = 0; i < students.Count; i++)
+                    {
+                        var student = students[i];
+                        array[i + 1, 0] = $"{i + 1}";
+                        array[i + 1, 1] = student.Name;
+                        for (int j = 2; j < 32; j++)
+                        {
+                            var checkDate = from d in student.Misses
+                                            where d.date.Day == int.Parse(array[0, j])
+                                            select d;
+                            if (checkDate.Count() != 0)
+                            {
+                                array[i + 1, j] = checkDate.Count().ToString();
+                            }
+
+                        }
+
+                    }
+
+                    
+                   
+                    document.Paragraphs[1].Range.Text = $"Пропуски {groupName}";
+                    document.Paragraphs.Add();
+                    Word.Range range = application.Selection.Range;
+                    Object behiavor = Word.WdDefaultTableBehavior.wdWord9TableBehavior;
+                    Object autoFitBehiavor = Word.WdAutoFitBehavior.wdAutoFitFixed;
+                    document.Tables.Add(document.Paragraphs[2].Range, array.GetLength(0), array.GetLength(1) , ref behiavor, ref autoFitBehiavor);
+                    for (int i = 0; i < array.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < array.GetLength(1); j++)
+                            document.Tables[1].Cell(i + 1, j + 1).Range.Text = array[i, j] == null ? "0" : array[i, j].ToString();
+                        //document.Tables[1].Cell(i + 1, array.GetLength(1) + 1);
+                    }
+                    application.Visible = true;
+                });
+                Close();
+            }
 
 
         }
@@ -108,7 +170,7 @@ namespace trpoMarkAnalizerProject
             int idGroup = (int)groupBox.SelectedValue;
             if (wordRb.Checked)
             {
-                string groupName = groupBox.SelectedText;
+                string groupName = groupBox.Text;
                 Task.Run(() =>
                 {
                     Word.Application application = new Word.Application();
@@ -244,18 +306,16 @@ Where Group.id = {idGroup}
 
                             }
 
-
-
-                            var rng = workSheet.Range[$"AG{i + 2}"];
-                            rng.Formula = $"=SUM(D{i + 2}:AF{i + 2})";
-                            rng.FormulaHidden = false;
+                            
+                            //rng.Formula = $"=SUM(C{i + 2}:AF{i + 2})";
+                            //rng.FormulaHidden = false;
 
                         }
                     }
-                    workSheet.Range[$"AF{students.Count + 2}"].Value = "Итого";
+                    /*workSheet.Range[$"AF{students.Count + 2}"].Value = "Итого";
                     var rngSum = workSheet.Range[$"AG{students.Count + 2}"];
                     rngSum.Formula = $"=SUM(AG2:AG{students.Count + 1})";
-                    rngSum.FormulaHidden = false;
+                    rngSum.FormulaHidden = false;*/
                     excelApp.Visible = true;
                     excelApp.UserControl = true;
 

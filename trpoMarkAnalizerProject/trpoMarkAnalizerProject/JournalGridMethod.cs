@@ -241,7 +241,7 @@ namespace trpoMarkAnalizerProject
                 while (reader.Read())
                 {
                     int id = (int)reader["id"];
-                    string name = reader["lastName"].ToString() + reader["firstName"].ToString();
+                    string name = reader["lastName"].ToString() + " " + reader["firstName"].ToString();
                     Student tmp = new Student(id, name);
                     students.Add(tmp);
                 }
