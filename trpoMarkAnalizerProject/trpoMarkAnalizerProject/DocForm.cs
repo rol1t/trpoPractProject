@@ -136,7 +136,7 @@ Where Group.id = {idGroup}
                     }
 
                     var valuesSub = subjectList.Values;
-                    string[,] array = new string[students.Count + 1, subjectList.Count + 2];
+                    string[,] array = new string[students.Count + 1, subjectList.Count + 3];
 
                     array[0, 0] = "Номер"; array[0, 1] = "Имя";
                     int index = 2;
@@ -144,6 +144,8 @@ Where Group.id = {idGroup}
                     {
                         array[0, index++] = item.Value;
                     }
+                    array[0, index++] = "Сред.";
+                    List<double> avrgMarks = new List<double>(); 
                     for (int i = 0; i < students.Count; i++)
                     {
                         var student = students[i];
@@ -155,10 +157,15 @@ Where Group.id = {idGroup}
                             var checkDate = (from d in student.Marks
                                              where d.IdSub == item.Key
                                              select d.Value);
-                            double avrg = checkDate.Count() > 0 ? checkDate.Average() : 0;
-                            array[i + 1, j++] = avrg.ToString();
+                            double avrg = checkDate.Count() > 0 ? Math.Round(checkDate.Average(), 2) : 0;
+                            array[i + 1, j++] = avrg == 0? "н/а": avrg.ToString();
 
                         }
+
+                        var tmpMarks = (from mark in student.Marks
+                                       select mark.Value);
+                        
+                        array[i + 1, array.GetLength(1) - 1] = tmpMarks.Count() == 0? "н/а": tmpMarks.Average().ToString();
 
                     }
                     document.Paragraphs[1].Range.Text = $"Средний балл группы {groupName}";
@@ -166,10 +173,13 @@ Where Group.id = {idGroup}
                     Word.Range range = application.Selection.Range;
                     Object behiavor = Word.WdDefaultTableBehavior.wdWord9TableBehavior;
                     Object autoFitBehiavor = Word.WdAutoFitBehavior.wdAutoFitFixed;
-                    document.Tables.Add(document.Paragraphs[2].Range, array.GetLength(0), array.GetLength(1), ref behiavor, ref autoFitBehiavor);
+                    document.Tables.Add(document.Paragraphs[2].Range, array.GetLength(0), array.GetLength(1) , ref behiavor, ref autoFitBehiavor);
                     for (int i = 0; i < array.GetLength(0); i++)
+                    {
                         for (int j = 0; j < array.GetLength(1); j++)
-                            document.Tables[1].Cell(i + 1, j + 1).Range.Text = array[i, j] == null? "0": array[i, j].ToString();
+                            document.Tables[1].Cell(i + 1, j + 1).Range.Text = array[i, j] == null ? "0" : array[i, j].ToString();
+                        //document.Tables[1].Cell(i + 1, array.GetLength(1) + 1);
+                    }
                     application.Visible = true;
                 });
                 Close();

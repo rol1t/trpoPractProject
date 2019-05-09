@@ -86,6 +86,10 @@ namespace trpoMarkAnalizerProject
 
         public void ComboBoxAdd3()
         {
+            if (comboBox4.DataSource != null)
+            {
+                ((IDisposable)comboBox4.DataSource).Dispose();
+            }
             string query = "SELECT lastName, id FROM Teacher";
             OleDbDataAdapter da = new OleDbDataAdapter(query, _connection);
             DataTable ds = new DataTable();
@@ -326,7 +330,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                             int id = Convert.ToInt32(teacherGrid[0, j].Value.ToString());
                             int newi = id + 1;
                             string newid = newi.ToString();
-                            string query = $"INSERT INTO Teacher VALUES ('{newid}','{lastName_textBox3.Text}','{firstName_textBox3.Text}','{sureName_textBox3.Text}','{dateBirth.Text}', '{aducation_comboBox2.Text}', '{adress_textBox3.Text}', '{phoneNumber.Text}')";
+                            string query = $"INSERT INTO Teacher (lastName, firstName, sureName, dateBirth, aducation, address, phoneNum) VALUES ('{lastName_textBox3.Text}','{firstName_textBox3.Text}','{sureName_textBox3.Text}','{dateBirth.Text}', '{aducation_comboBox2.Text}', '{adress_textBox3.Text}', '{phoneNumber.Text}')";
                             OleDbCommand command = new OleDbCommand(query, _connection);
                             command.ExecuteNonQuery();
                             TeacherShow();
@@ -352,6 +356,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                         panel1.Visible = false;
                     }
                 }
+                ComboBoxAdd3();
             }
             catch (Exception a)
             {
