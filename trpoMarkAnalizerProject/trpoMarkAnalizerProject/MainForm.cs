@@ -258,6 +258,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button6_Click(object sender, EventArgs e)
         {
+            teacherGrid.Enabled = false;
             Add_label.Text = "Добавление";
             lastName_textBox3.Text = "";
             firstName_textBox3.Text = "";
@@ -354,6 +355,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                         command.ExecuteNonQuery();
                         TeacherShow();
                         panel1.Visible = false;
+                        teacherGrid.Enabled = true;
                     }
                 }
                 ComboBoxAdd3();
@@ -366,6 +368,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button9_Click(object sender, EventArgs e)
         {
+            teacherGrid.Enabled = false;
             int index = teacherGrid.CurrentRow.Index;
             if (index == teacherGrid.RowCount - 1)
             {
@@ -456,6 +459,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button3_Click(object sender, EventArgs e)
         {
+            subjectGrid.Enabled = false;
             label11.Text = "Добавление";
             comboBox4.Text = "";
             comboBox2.Text = "";
@@ -464,6 +468,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button10_Click(object sender, EventArgs e)
         {
+            subjectGrid.Enabled = false;
             int index = subjectGrid.CurrentRow.Index;
             if (index == subjectGrid.RowCount - 1)
             {
@@ -517,6 +522,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                         command.ExecuteNonQuery();
                         SubjectShow();
                         panel3.Visible = false;
+                        subjectGrid.Enabled = true;
                     }
                 }
             }
@@ -556,6 +562,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button2_Click(object sender, EventArgs e)
         {
+            studentGrid.Enabled = false;
             label19.Text = "Добавление";
             groupStudentBox.Text = "";
             textBox9.Text = "";
@@ -568,6 +575,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
 
         private void button11_Click(object sender, EventArgs e)
         {
+            studentGrid.Enabled = false;
             int index = studentGrid.CurrentRow.Index;
             if (index == studentGrid.RowCount - 1)
             {
@@ -624,6 +632,7 @@ Data Source=Marks1.accdb;Persist Security Info=True");
                     }
                 }
                 StudentShow();
+                studentGrid.Enabled = true;
             }
             catch (Exception a)
             {
@@ -707,16 +716,19 @@ Data Source=Marks1.accdb;Persist Security Info=True");
         private void CloseAddStudentPanelBtn_Click(object sender, EventArgs e)
         {
             panel4.Visible = false;
+            studentGrid.Enabled = true;
         }
 
         private void CloseAddSubjectPanelBtn_Click(object sender, EventArgs e)
         {
             panel3.Visible = false;
+            subjectGrid.Enabled = true;
         }
 
         private void CloseAddTeacherPanelBtn_Click(object sender, EventArgs e)
         {
             panel1.Visible = false;
+            teacherGrid.Enabled = true;
         }
 
         private void LastName_textBox3_KeyPress(object sender, KeyPressEventArgs e)
