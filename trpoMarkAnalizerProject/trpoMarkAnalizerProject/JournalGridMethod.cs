@@ -113,7 +113,7 @@ namespace trpoMarkAnalizerProject
             List<Student.Miss> misses = new List<Student.Miss>();
             int resUpdMark, resAddMark, resDelMark, resAddSkip, resDelSkip;
             resUpdMark = resAddMark = resDelMark = resAddSkip = resDelSkip = 0;
-            for (int i = 0; i < journalGrid.RowCount - 1; i++)
+            for (int i = 0; i < journalGrid.RowCount; i++)
             {
                 for (int j = 2; j < journalGrid.ColumnCount; j++)
                 {
