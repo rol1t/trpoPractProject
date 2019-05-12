@@ -41,6 +41,7 @@ namespace trpoMarkAnalizerProject
         {
             var date = dateTimePicker.Value;
             int idGroup = (int)groupBox.SelectedValue;
+            string groupName = groupBox.Text;
             if (excelRb.Checked == true)
             {
                 Task.Run(() =>
@@ -92,6 +93,7 @@ namespace trpoMarkAnalizerProject
                     workSheet.Range[$"AF{students.Count + 2}"].Value = "Итого";
                     var rngSum = workSheet.Range[$"AG{students.Count + 2}"];
                     rngSum.Formula = $"=SUM(AG2:AG{students.Count + 1})";
+                    workSheet.Cells[students.Count + 2, 1] = $"Ведомость пропусков группы {groupName}";
                     rngSum.FormulaHidden = false;
                     excelApp.Visible = true;
                     excelApp.UserControl = true;
@@ -100,14 +102,12 @@ namespace trpoMarkAnalizerProject
             }
             if (wordRb.Checked)
             {
-                string groupName = groupBox.Text;
                 Task.Run(() =>
                 {
                     Word.Application application = new Word.Application();
                     Object missing = Type.Missing;
                     application.Documents.Add(ref missing, ref missing, ref missing, ref missing);
                     Word.Document document = application.ActiveDocument;
-
                     var students = MainForm.CreateCustomStudentArray(idGroup, date, 30);
                     string[,] array = new string[students.Count + 1, 32];
                     Dictionary<int, string> subjectList = new Dictionary<int, string>();
@@ -135,7 +135,7 @@ namespace trpoMarkAnalizerProject
                                             select d;
                             if (checkDate.Count() != 0)
                             {
-                                array[i + 1, j] = checkDate.Count().ToString();
+                                array[i + 1, j] = (checkDate.Count() * 2).ToString();
                             }
 
                         }
@@ -150,10 +150,11 @@ namespace trpoMarkAnalizerProject
                     Object behiavor = Word.WdDefaultTableBehavior.wdWord9TableBehavior;
                     Object autoFitBehiavor = Word.WdAutoFitBehavior.wdAutoFitFixed;
                     document.Tables.Add(document.Paragraphs[2].Range, array.GetLength(0), array.GetLength(1) , ref behiavor, ref autoFitBehiavor);
+                    document.Paragraphs[2].Range.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
                     for (int i = 0; i < array.GetLength(0); i++)
                     {
                         for (int j = 0; j < array.GetLength(1); j++)
-                            document.Tables[1].Cell(i + 1, j + 1).Range.Text = array[i, j] == null ? "0" : array[i, j].ToString();
+                            document.Tables[1].Cell(i + 1, j + 1).Range.Text = array[i, j] == null ? "" : array[i, j].ToString();
                         //document.Tables[1].Cell(i + 1, array.GetLength(1) + 1);
                     }
                     application.Visible = true;
@@ -177,8 +178,6 @@ namespace trpoMarkAnalizerProject
                     Object missing = Type.Missing;
                     application.Documents.Add(ref missing, ref missing, ref missing, ref missing);
                     Word.Document document = application.ActiveDocument;
-                    string T = "Затраты на производство продукции '";
-                    //T += dataGridView4[0, int.Parse(dataGridView4.SelectedRows[0].Index.ToString())].Value.ToString() + "'";
 
                     var students = MainForm.CreateCustomStudentArray(idGroup, date, 30);
                     string query = $@"SELECT Distinct  Subject.id, nameSub
@@ -227,7 +226,7 @@ Where Group.id = {idGroup}
                         var tmpMarks = (from mark in student.Marks
                                        select mark.Value);
                         
-                        array[i + 1, array.GetLength(1) - 1] = tmpMarks.Count() == 0? "н/а": tmpMarks.Average().ToString();
+                        array[i + 1, array.GetLength(1) - 1] = tmpMarks.Count() == 0? "н/а": Math.Round(tmpMarks.Average(), 2).ToString();
 
                     }
                     document.Paragraphs[1].Range.Text = $"Средний балл группы {groupName}";
@@ -240,7 +239,6 @@ Where Group.id = {idGroup}
                     {
                         for (int j = 0; j < array.GetLength(1); j++)
                             document.Tables[1].Cell(i + 1, j + 1).Range.Text = array[i, j] == null ? "0" : array[i, j].ToString();
-                        //document.Tables[1].Cell(i + 1, array.GetLength(1) + 1);
                     }
                     application.Visible = true;
                 });
@@ -248,6 +246,7 @@ Where Group.id = {idGroup}
             }
             if (excelRb.Checked == true)
             {
+                string groupName = groupBox.Text;
                 Task.Run(() =>
                 {
                     // Создаём экземпляр нашего приложения
@@ -301,7 +300,7 @@ Where Group.id = {idGroup}
                                 var checkDate = (from d in student.Marks
                                                  where d.IdSub == item.Key
                                                  select d.Value);
-                                double avrg = checkDate.Count() > 0 ? checkDate.Average() : 0;
+                                double avrg = checkDate.Count() > 0 ? Math.Round(checkDate.Average(), 2) : 0;
                                 workSheet.Cells[i + 2, j++] = avrg;
 
                             }
@@ -312,6 +311,7 @@ Where Group.id = {idGroup}
 
                         }
                     }
+                    workSheet.Cells[students.Count + 2, 1] = $"Ведомость среднего балла группы {groupName}";
                     /*workSheet.Range[$"AF{students.Count + 2}"].Value = "Итого";
                     var rngSum = workSheet.Range[$"AG{students.Count + 2}"];
                     rngSum.Formula = $"=SUM(AG2:AG{students.Count + 1})";
